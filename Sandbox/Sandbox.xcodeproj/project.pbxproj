@@ -27,10 +27,11 @@
 		B830D6672B6DE83700819857 /* FirecrackerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B830D6662B6DE83700819857 /* FirecrackerView.swift */; };
 		B830D66A2B6DE85900819857 /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = B830D6692B6DE85900819857 /* Vortex */; };
 		B830D66D2B6DE92900819857 /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = B830D66C2B6DE92900819857 /* Vortex */; };
+		B88C86D12B6EBDE700753416 /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = B88C86D02B6EBDE700753416 /* Vortex */; };
+		B88C86FE2B6ED20900753416 /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = B88C86FD2B6ED20900753416 /* Vortex */; };
 		B8DBA8B32B6EA10200F9AEFF /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = B8DBA8B22B6EA10200F9AEFF /* Vortex */; };
 		B8DBA8B92B6EB40600F9AEFF /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = B8DBA8B82B6EB40600F9AEFF /* Vortex */; };
 		B8DBA8BF2B6EB68800F9AEFF /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = B8DBA8BE2B6EB68800F9AEFF /* Vortex */; };
-		B8DBA8C22B6EB6B700F9AEFF /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = B8DBA8C12B6EB6B700F9AEFF /* Vortex */; };
 		B8E29D992B6DF62700824A15 /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = B8E29D982B6DF62700824A15 /* Vortex */; };
 /* End PBXBuildFile section */
 
@@ -62,12 +63,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B8DBA8C22B6EB6B700F9AEFF /* Vortex in Frameworks */,
+				B88C86D12B6EBDE700753416 /* Vortex in Frameworks */,
 				B8DBA8B92B6EB40600F9AEFF /* Vortex in Frameworks */,
 				B830D66D2B6DE92900819857 /* Vortex in Frameworks */,
 				B8DBA8BF2B6EB68800F9AEFF /* Vortex in Frameworks */,
 				B830D66A2B6DE85900819857 /* Vortex in Frameworks */,
 				B8DBA8B32B6EA10200F9AEFF /* Vortex in Frameworks */,
+				B88C86FE2B6ED20900753416 /* Vortex in Frameworks */,
 				B8E29D992B6DF62700824A15 /* Vortex in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -156,7 +158,8 @@
 				B8DBA8B22B6EA10200F9AEFF /* Vortex */,
 				B8DBA8B82B6EB40600F9AEFF /* Vortex */,
 				B8DBA8BE2B6EB68800F9AEFF /* Vortex */,
-				B8DBA8C12B6EB6B700F9AEFF /* Vortex */,
+				B88C86D02B6EBDE700753416 /* Vortex */,
+				B88C86FD2B6ED20900753416 /* Vortex */,
 			);
 			productName = Sandbox;
 			productReference = 51FA8C962B580CB000C831CA /* Sandbox.app */;
@@ -187,7 +190,7 @@
 			);
 			mainGroup = 51FA8C8D2B580CB000C831CA;
 			packageReferences = (
-				B8DBA8C02B6EB6B700F9AEFF /* XCRemoteSwiftPackageReference "Vortex" */,
+				B88C86FC2B6ED20900753416 /* XCRemoteSwiftPackageReference "Vortex" */,
 			);
 			productRefGroup = 51FA8C972B580CB000C831CA /* Products */;
 			projectDirPath = "";
@@ -449,7 +452,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		B8DBA8C02B6EB6B700F9AEFF /* XCRemoteSwiftPackageReference "Vortex" */ = {
+		B88C86FC2B6ED20900753416 /* XCRemoteSwiftPackageReference "Vortex" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/twostraws/Vortex";
 			requirement = {
@@ -468,6 +471,15 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Vortex;
 		};
+		B88C86D02B6EBDE700753416 /* Vortex */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Vortex;
+		};
+		B88C86FD2B6ED20900753416 /* Vortex */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B88C86FC2B6ED20900753416 /* XCRemoteSwiftPackageReference "Vortex" */;
+			productName = Vortex;
+		};
 		B8DBA8B22B6EA10200F9AEFF /* Vortex */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Vortex;
@@ -478,11 +490,6 @@
 		};
 		B8DBA8BE2B6EB68800F9AEFF /* Vortex */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Vortex;
-		};
-		B8DBA8C12B6EB6B700F9AEFF /* Vortex */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8DBA8C02B6EB6B700F9AEFF /* XCRemoteSwiftPackageReference "Vortex" */;
 			productName = Vortex;
 		};
 		B8E29D982B6DF62700824A15 /* Vortex */ = {

@@ -197,6 +197,10 @@ The `VortexSystem` initializer parameters are:
 - `sizeVariation` (`Double`, defaults to 0) determines how much variation to allow in initial particle size, +/- the base `size` value.
 - `sizeMultiplierAtDeath` (`Double`, defaults to 1) determines how much bigger or smaller particles should be by the time they are destroyed. A value of 1 means the size won't change, whereas a value of 0.5 means particles will be half whatever their initial size was.
 - `stretchFactor` (`Double`, defaults to 1) determines whether particles should be stretched based on their movement speed. A value of 1 means no stretch is applied.
+- `tiltDivisor` (`Double`, defaults to 1) How much to reduce tilt affects on a particle's position.
+    Larger values cause smaller changes. A value of 1 causes no reduction to tilt effects.
+- `tiltRate` (`SIMD2<Double>?`, defaults to `nil`) The x and y rotation rate of the device, based on `tiltDivisor`.
+    A nil value here means no tilt effects will be applied.
 
 Most of those are built-in types, but two deserve extra explanation.
 
@@ -394,6 +398,56 @@ ZStack {
             .fill(.white)
             .frame(width: 16, height: 16)
             .tag("circle")
+    }
+}
+```
+
+### Stars
+
+The `.stars` preset creates glowing blue and purple dots that slowly fade out. The stars will slightly change position as the tilt in the device changes. This means using a `VortexViewReader` to gain access to the Vortex proxy, like this:
+
+```swift
+let motion = CMMotionManager()
+let timer = Timer.publish(every: 1/50, on: .main, in: .common).autoconnect()
+
+VortexViewReader { proxy in
+    VortexView(.stars.makeUniqueCopy()) {
+        Circle()
+            .fill(.white)
+            .frame(width: 24)
+            .blur(radius: 3)
+            .tag("circle")
+            .blendMode(.plusLighter)
+    }
+    .updateGyroscope(for: motion, updateInterval: 1/50)
+    .onReceive(timer) { _ in
+        if let data = motion.gyroData {
+            proxy.tiltBy(SIMD2(data.rotationRate.x, data.rotationRate.y))
+        }
+    }
+}
+```
+
+### Firecracker
+
+The `.firecracker` creates a constant spark effect, when the direction that the sparks fly out changes with the tilt of the device. This means using a `VortexViewReader` to gain access to the Vortex proxy, like this:
+
+```swift
+let motion = CMMotionManager()
+let timer = Timer.publish(every: 1/50, on: .main, in: .common).autoconnect()
+
+VortexViewReader { proxy in
+    VortexView(.firecracker.makeUniqueCopy()) {
+        Circle()
+            .fill(.white)
+            .frame(width: 16)
+            .tag("circle")
+    }
+    .updateGyroscope(for: motion, updateInterval: 1/50)
+    .onReceive(timer) { _ in
+        if let data = motion.gyroData {
+            proxy.tiltBy(SIMD2(data.rotationRate.x, data.rotationRate.y))
+        }
     }
 }
 ```
