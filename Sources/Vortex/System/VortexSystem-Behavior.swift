@@ -139,8 +139,8 @@ extension VortexSystem {
         // Changes in tilt along the x-axis are applied to the particles's y speed if permitted
         // and changes in tilt along the x-axis are applied to the particle's x speed if permitted
         return SIMD2(
-            tiltDirections.contains(.y) ? yTiltFactor : 1,
-            tiltDirections.contains(.x) ? xTiltFactor : 1
+            tiltAxes.contains(.y) ? yTiltFactor : 1,
+            tiltAxes.contains(.x) ? xTiltFactor : 1
         )
     }
 

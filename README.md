@@ -199,7 +199,7 @@ The `VortexSystem` initializer parameters are:
 - `stretchFactor` (`Double`, defaults to 1) determines whether particles should be stretched based on their movement speed. A value of 1 means no stretch is applied.
 - `tiltDivisor` (`Double`, defaults to 1) How much to reduce tilt effects on a particle's position.
     Larger values cause smaller changes. A value of 1 causes no reduction to tilt effects.
-- `tiltDirections` (`TiltDirection`, defaults to .allCases) The axes of tilt that can affect the position of the particles.
+- `TiltAxes` (`TiltAxis`, defaults to .allCases) The axes of tilt that can affect the position of the particles.
 - `tiltRate` (`SIMD2<Double>?`, defaults to `nil`) The x and y rotation rate of the device, based on `tiltDivisor`.
     A nil value here means no tilt effects will be applied.
 

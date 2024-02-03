@@ -23,7 +23,7 @@ extension VortexSystem {
             sizeVariation: 0.5,
             sizeMultiplierAtDeath: 0.2,
             tiltDivisor: 3,
-            tiltDirections: [.y]
+            tiltAxes: [.y]
         )
     }()
 }

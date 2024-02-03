@@ -1,5 +1,5 @@
 //
-// TiltDirection.swift
+// TiltAxis.swift
 // Vortex
 // https://www.github.com/twostraws/Vortex
 // See LICENSE for license information.
@@ -8,11 +8,11 @@
 import Foundation
 
 extension VortexSystem {
-    /// The tilt directions used to determine the axes of tilt that can affect the positions of the particles
-    public enum TiltDirection: Codable, CaseIterable {
+    /// The axis of tilt that can affect the positions of the particles
+    public enum TiltAxis: Codable, CaseIterable {
         
-        /// Allow tilting along the x and y axes to change the position of a particle
-        public static var allCases: Set<VortexSystem.TiltDirection> {
+        /// The x and y axes will change the position of a particle
+        public static var allCases: Set<VortexSystem.TiltAxis> {
             [.x, .y]
         }
         
