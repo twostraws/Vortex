@@ -36,7 +36,7 @@ struct CampfireView: View {
                 }
             }
         }
-        .navigationSubtitle("Demonstrates the fire preset with attraction")
+        .navigationSubtitle("Demonstrates the campfire preset with tilt")
         .ignoresSafeArea(edges: .top)
     }
 }

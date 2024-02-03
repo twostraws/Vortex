@@ -32,7 +32,7 @@ struct StarsView: View {
                         .tag("sparkle")
                         .blendMode(.plusLighter)
                 }
-                .navigationSubtitle("Demonstrates the stars preset")
+                .navigationSubtitle("Demonstrates the stars preset with tilt")
                 .ignoresSafeArea(edges: .top)
                 .updateGyroscope(for: motion, updateInterval: 1/120)
                 .onReceive(timer) { _ in
