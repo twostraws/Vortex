@@ -160,7 +160,7 @@ public class VortexSystem: Codable, Equatable, Hashable {
     /// cause more stretching.
     public var stretchFactor: Double
     
-    /// How much to reduce rotation affects on a particle's position. Larger values cause smaller 
+    /// How much to reduce rotation effects on a particle's position. Larger values cause smaller
     /// changes in a particle's position.
     public var rotationDivisor: Double
     

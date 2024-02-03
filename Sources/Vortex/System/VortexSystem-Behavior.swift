@@ -128,7 +128,7 @@ extension VortexSystem {
             return SIMD2(1, 1)
         }
         
-        // Reduce the effects of rotationing if needed
+        // Reduce the effects of rotating if needed
         let xRotation: Double = rotationRate.x / rotationDivisor
         let yRotation: Double = rotationRate.y / rotationDivisor
         
