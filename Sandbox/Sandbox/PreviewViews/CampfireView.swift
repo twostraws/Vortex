@@ -1,5 +1,5 @@
 //
-// FirecrackerView.swift
+// CampfireView.swift
 // Vortex
 // https://www.github.com/twostraws/Vortex
 // See LICENSE for license information.
@@ -10,24 +10,24 @@ import CoreMotion
 import SwiftUI
 import Vortex
 
-/// A sample view demonstrating the built-in spark preset.
-struct FirecrackerView: View {
+/// A sample view demonstrating fire particles that blow in the direction of the device's tilt.
+struct CampfireView: View {
     let motion: CMMotionManager
     let timer = Timer.publish(every: 1/120, on: .main, in: .common).autoconnect()
     
     var body: some View {
         VortexViewReader { proxy in
             ZStack {
-                Text("Tilt your device to change the direction of the sparks.")
-                
-                VortexView(.firecracker.makeUniqueCopy()) {
+                Text("Tilt your device to change the direction of the fire.")
+
+                VortexView(.campfire.makeUniqueCopy()) {
                     Circle()
                         .fill(.white)
-                        .frame(width: 16)
+                        .frame(width: 40)
+                        .blur(radius: 4)
+                        .blendMode(.plusLighter)
                         .tag("circle")
                 }
-                .navigationSubtitle("Demonstrates the spark preset")
-                .ignoresSafeArea(edges: .top)
                 .updateGyroscope(for: motion, updateInterval: 1/120)
                 .onReceive(timer) { _ in
                     if let data = motion.gyroData {
@@ -36,10 +36,13 @@ struct FirecrackerView: View {
                 }
             }
         }
+        .navigationSubtitle("Demonstrates the fire preset with attraction")
+        .ignoresSafeArea(edges: .top)
     }
 }
 
 #Preview {
-    FirecrackerView(motion: CMMotionManager())
+    CampfireView(motion: CMMotionManager())
 }
 #endif
+

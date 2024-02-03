@@ -12,7 +12,7 @@ extension VortexSystem {
     /// A built-in star effect. Relies on a "circle" tag being present.
     public static let stars: VortexSystem = {
         VortexSystem(
-            tags: ["circle"],
+            tags: ["sparkle", "circle"],
             shape: .box(width: 1.0, height: 1.0),
             birthRate: 20,
             lifespan: 5,

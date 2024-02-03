@@ -23,9 +23,13 @@ struct StarsView: View {
                 VortexView(.stars.makeUniqueCopy()) {
                     Circle()
                         .fill(.white)
-                        .frame(width: 24)
+                        .frame(width: 18)
                         .blur(radius: 3)
                         .tag("circle")
+                        .blendMode(.plusLighter)
+                    
+                    Image(.sparkle)
+                        .tag("sparkle")
                         .blendMode(.plusLighter)
                 }
                 .navigationSubtitle("Demonstrates the stars preset")

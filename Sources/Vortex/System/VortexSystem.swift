@@ -13,7 +13,7 @@ public class VortexSystem: Codable, Equatable, Hashable {
     enum CodingKeys: CodingKey {
         case tags, secondarySystems, spawnOccasion, position, shape, birthRate, emissionLimit, emissionDuration
         case idleDuration, burstCount, burstCountVariation, lifespan, lifespanVariation, speed, speedVariation, angle
-        case angleRange, acceleration, attractionCenter, attractionStrength, dampingFactor, angularSpeed, tiltRate
+        case angleRange, acceleration, attractionCenter, attractionStrength, dampingFactor, angularSpeed, tiltRate, tiltDirections
         case angularSpeedVariation, colors, size, sizeVariation, sizeMultiplierAtDeath, stretchFactor, tiltDivisor
     }
 
@@ -163,6 +163,9 @@ public class VortexSystem: Codable, Equatable, Hashable {
     /// changes in a particle's position.
     public var tiltDivisor: Double
     
+    /// The axes of tilt that can affect the position of the particles.
+    public var tiltDirections: Set<TiltDirection>
+    
     /// The value the device is tilted, changes are based
     /// on `tiltDivisor`. A `nil` value here means no tilt adjustment.
     public var tiltRate: SIMD2<Double>?
@@ -230,6 +233,8 @@ public class VortexSystem: Codable, Equatable, Hashable {
     ///     speed. Larger values cause more stretching. Defaults to 1 (no stretch).
     ///   - tiltDivisor: How much to reduce tilt effects on a particle's position.
     ///     Larger values cause smaller changes. Defaults to 1 (no reduction to tilt effects).
+    ///   - tiltDirections: The axes of tilt that can affect the position of the particles.
+    ///     Defaults to .allCases (x and y tilt will affect the particle position).
     ///   - tiltRate: The x and y rotation rate of the device, based on `tiltDivisor`.
     ///     A nil value here means no tilt effects will be applied. Defaults to `nil`
     public init(
@@ -262,6 +267,7 @@ public class VortexSystem: Codable, Equatable, Hashable {
         sizeMultiplierAtDeath: Double = 1,
         stretchFactor: Double = 1,
         tiltDivisor: Double = 1,
+        tiltDirections: Set<TiltDirection> = TiltDirection.allCases,
         tiltRate: SIMD2<Double>? = nil
     ) {
         self.tags = tags
@@ -293,6 +299,7 @@ public class VortexSystem: Codable, Equatable, Hashable {
         self.sizeMultiplierAtDeath = sizeMultiplierAtDeath
         self.stretchFactor = stretchFactor
         self.tiltDivisor = tiltDivisor
+        self.tiltDirections = tiltDirections
         self.tiltRate = tiltRate
 
         if case let .randomRamp(allColors) = colors {
@@ -337,6 +344,7 @@ public class VortexSystem: Codable, Equatable, Hashable {
         sizeMultiplierAtDeath = try container.decode(Double.self, forKey: .sizeMultiplierAtDeath)
         stretchFactor = try container.decode(Double.self, forKey: .stretchFactor)
         tiltDivisor = try container.decode(Double.self, forKey: .tiltDivisor)
+        tiltDirections = try container.decode(Set<TiltDirection>.self, forKey: .tiltDirections)
         tiltRate = try container.decode(SIMD2<Double>.self, forKey: .tiltRate)
     }
 
@@ -419,6 +427,7 @@ public class VortexSystem: Codable, Equatable, Hashable {
             sizeMultiplierAtDeath: sizeMultiplierAtDeath,
             stretchFactor: stretchFactor,
             tiltDivisor: tiltDivisor,
+            tiltDirections: tiltDirections,
             tiltRate: tiltRate
         )
     }

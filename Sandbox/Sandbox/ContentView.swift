@@ -30,7 +30,7 @@ struct ContentView: View {
                 
                 #if !os(macOS)
                 NavigationLink("Stars", destination: StarsView.init(motion: motion))
-                NavigationLink("Firecracker", destination: FirecrackerView.init(motion: motion))
+                NavigationLink("Campfire", destination: CampfireView.init(motion: motion))
                 #endif
             }
             .navigationTitle("Vortex Sandbox")

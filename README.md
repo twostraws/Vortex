@@ -199,6 +199,7 @@ The `VortexSystem` initializer parameters are:
 - `stretchFactor` (`Double`, defaults to 1) determines whether particles should be stretched based on their movement speed. A value of 1 means no stretch is applied.
 - `tiltDivisor` (`Double`, defaults to 1) How much to reduce tilt effects on a particle's position.
     Larger values cause smaller changes. A value of 1 causes no reduction to tilt effects.
+- `tiltDirections` (`TiltDirection`, defaults to .allCases) The axes of tilt that can affect the position of the particles.
 - `tiltRate` (`SIMD2<Double>?`, defaults to `nil`) The x and y rotation rate of the device, based on `tiltDivisor`.
     A nil value here means no tilt effects will be applied.
 
@@ -404,7 +405,7 @@ ZStack {
 
 ### Stars
 
-The `.stars` preset creates glowing blue and purple dots that slowly fade out. The stars will slightly change position as the tilt of the device changes. This means using a `VortexViewReader` to gain access to the Vortex proxy, like this:
+The `.stars` preset creates glowing blue and purple dots and sparkles that fade in then slowly fade out. The stars will slightly change position as the tilt of the device changes. This means using a `VortexViewReader` to gain access to the Vortex proxy, like this:
 
 ```swift
 let motion = CMMotionManager()
@@ -414,9 +415,13 @@ VortexViewReader { proxy in
     VortexView(.stars.makeUniqueCopy()) {
         Circle()
             .fill(.white)
-            .frame(width: 24)
+            .frame(width: 18)
             .blur(radius: 3)
             .tag("circle")
+            .blendMode(.plusLighter)
+
+        Image(.sparkle)
+            .tag("sparkle")
             .blendMode(.plusLighter)
     }
     .updateGyroscope(for: motion, updateInterval: 1/50)
@@ -428,22 +433,24 @@ VortexViewReader { proxy in
 }
 ```
 
-### Firecracker
+### Campfire
 
-The `.firecracker` creates a constant spark effect, where the direction that the sparks fly out changes with the tilt of the device. This means using a `VortexViewReader` to gain access to the Vortex proxy, like this:
+The `.campfire` creates a campfire effect. This works better when your particles have a soft edge, and use a `.plusLighter` blend mode. The campfire also sways to the direction your device is tilting, this means using a `VortexViewReader` to gain access to the Vortex proxy, like this:
 
 ```swift
 let motion = CMMotionManager()
-let timer = Timer.publish(every: 1/50, on: .main, in: .common).autoconnect()
-
+let timer = Timer.publish(every: 1/120, on: .main, in: .common).autoconnect()
+    
 VortexViewReader { proxy in
-    VortexView(.firecracker.makeUniqueCopy()) {
+    VortexView(.campfire.makeUniqueCopy()) {
         Circle()
             .fill(.white)
-            .frame(width: 16)
+            .frame(width: 40)
+            .blur(radius: 4)
+            .blendMode(.plusLighter)
             .tag("circle")
     }
-    .updateGyroscope(for: motion, updateInterval: 1/50)
+    .updateGyroscope(for: motion, updateInterval: 1/120)
     .onReceive(timer) { _ in
         if let data = motion.gyroData {
             proxy.tiltBy(SIMD2(data.rotationRate.x, data.rotationRate.y))

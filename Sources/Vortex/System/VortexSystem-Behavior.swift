@@ -136,9 +136,12 @@ extension VortexSystem {
         let xTiltFactor = (xTilt > 0 && speed.y < 0) || (xTilt < 0 && speed.y < 0) ? -1 * xTilt : xTilt
         let yTiltFactor = (yTilt > 0 && speed.x < 0) || (yTilt < 0 && speed.x < 0) ? -1 * yTilt : yTilt
         
-        // Changes in tilt along the x-axis are applied to the particles's y speed,
-        // and changes in tilt along the x-axis are applied to the particle's x speed
-        return SIMD2(yTiltFactor, xTiltFactor)
+        // Changes in tilt along the x-axis are applied to the particles's y speed if permitted
+        // and changes in tilt along the x-axis are applied to the particle's x speed if permitted
+        return SIMD2(
+            tiltDirections.contains(.y) ? yTiltFactor : 1,
+            tiltDirections.contains(.x) ? xTiltFactor : 1
+        )
     }
 
     /// Used to create a single particle.
