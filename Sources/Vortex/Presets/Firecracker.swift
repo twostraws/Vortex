@@ -13,7 +13,7 @@ extension VortexSystem {
     public static let firecracker: VortexSystem = {
         VortexSystem(
             tags: ["circle"],
-            birthRate: 300,
+            birthRate: 500,
             lifespan: 0.4,
             speed: 3,
             speedVariation: 1,
@@ -25,7 +25,7 @@ extension VortexSystem {
             size: 0.1,
             sizeVariation: 0.1,
             stretchFactor: 3,
-            tiltFactor: 30
+            tiltReductionFactor: 40
         )
     }()
 }

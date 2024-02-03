@@ -27,7 +27,9 @@
 		B830D6672B6DE83700819857 /* FirecrackerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B830D6662B6DE83700819857 /* FirecrackerView.swift */; };
 		B830D66A2B6DE85900819857 /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = B830D6692B6DE85900819857 /* Vortex */; };
 		B830D66D2B6DE92900819857 /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = B830D66C2B6DE92900819857 /* Vortex */; };
-		B830D6702B6DEA1900819857 /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = B830D66F2B6DEA1900819857 /* Vortex */; };
+		B8DBA8B32B6EA10200F9AEFF /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = B8DBA8B22B6EA10200F9AEFF /* Vortex */; };
+		B8DBA8B62B6EAD1700F9AEFF /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = B8DBA8B52B6EAD1700F9AEFF /* Vortex */; };
+		B8E29D992B6DF62700824A15 /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = B8E29D982B6DF62700824A15 /* Vortex */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,9 +60,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8DBA8B62B6EAD1700F9AEFF /* Vortex in Frameworks */,
 				B830D66D2B6DE92900819857 /* Vortex in Frameworks */,
 				B830D66A2B6DE85900819857 /* Vortex in Frameworks */,
-				B830D6702B6DEA1900819857 /* Vortex in Frameworks */,
+				B8DBA8B32B6EA10200F9AEFF /* Vortex in Frameworks */,
+				B8E29D992B6DF62700824A15 /* Vortex in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,7 +148,9 @@
 			packageProductDependencies = (
 				B830D6692B6DE85900819857 /* Vortex */,
 				B830D66C2B6DE92900819857 /* Vortex */,
-				B830D66F2B6DEA1900819857 /* Vortex */,
+				B8E29D982B6DF62700824A15 /* Vortex */,
+				B8DBA8B22B6EA10200F9AEFF /* Vortex */,
+				B8DBA8B52B6EAD1700F9AEFF /* Vortex */,
 			);
 			productName = Sandbox;
 			productReference = 51FA8C962B580CB000C831CA /* Sandbox.app */;
@@ -175,7 +181,7 @@
 			);
 			mainGroup = 51FA8C8D2B580CB000C831CA;
 			packageReferences = (
-				B830D66E2B6DEA1900819857 /* XCRemoteSwiftPackageReference "Vortex" */,
+				B8DBA8B42B6EAD1700F9AEFF /* XCRemoteSwiftPackageReference "Vortex" */,
 			);
 			productRefGroup = 51FA8C972B580CB000C831CA /* Products */;
 			projectDirPath = "";
@@ -437,7 +443,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		B830D66E2B6DEA1900819857 /* XCRemoteSwiftPackageReference "Vortex" */ = {
+		B8DBA8B42B6EAD1700F9AEFF /* XCRemoteSwiftPackageReference "Vortex" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/twostraws/Vortex";
 			requirement = {
@@ -456,9 +462,17 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Vortex;
 		};
-		B830D66F2B6DEA1900819857 /* Vortex */ = {
+		B8DBA8B22B6EA10200F9AEFF /* Vortex */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B830D66E2B6DEA1900819857 /* XCRemoteSwiftPackageReference "Vortex" */;
+			productName = Vortex;
+		};
+		B8DBA8B52B6EAD1700F9AEFF /* Vortex */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8DBA8B42B6EAD1700F9AEFF /* XCRemoteSwiftPackageReference "Vortex" */;
+			productName = Vortex;
+		};
+		B8E29D982B6DF62700824A15 /* Vortex */ = {
+			isa = XCSwiftPackageProductDependency;
 			productName = Vortex;
 		};
 /* End XCSwiftPackageProductDependency section */

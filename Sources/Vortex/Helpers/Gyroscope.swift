@@ -5,6 +5,7 @@
 // See LICENSE for license information.
 //
 
+#if !os(macOS)
 import CoreMotion
 import SwiftUI
 
@@ -32,4 +33,4 @@ extension View {
             .onDisappear { motion.stopGyroUpdates() }
     }
 }
-
+#endif

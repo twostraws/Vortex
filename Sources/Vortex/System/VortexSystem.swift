@@ -14,7 +14,7 @@ public class VortexSystem: Codable, Equatable, Hashable {
         case tags, secondarySystems, spawnOccasion, position, shape, birthRate, emissionLimit, emissionDuration
         case idleDuration, burstCount, burstCountVariation, lifespan, lifespanVariation, speed, speedVariation, angle
         case angleRange, acceleration, attractionCenter, attractionStrength, dampingFactor, angularSpeed, tiltRate
-        case angularSpeedVariation, colors, size, sizeVariation, sizeMultiplierAtDeath, stretchFactor, tiltFactor
+        case angularSpeedVariation, colors, size, sizeVariation, sizeMultiplierAtDeath, stretchFactor, tiltReductionFactor
     }
 
     /// A random identifier that lets us create Equatable and Hashable conformances easily.
@@ -159,12 +159,11 @@ public class VortexSystem: Codable, Equatable, Hashable {
     /// cause more stretching.
     public var stretchFactor: Double
     
-    /// How much tilting affects the offset of an items position. Larger values cause less offset,
-    /// a value of zero or nil causes no changes to the system.
-    public var tiltFactor: Double?
+    /// How much tilting affects the offset of an items position. Larger values cause less offset
+    public var tiltReductionFactor: Double
     
     /// The value the device is tilted, changes are based
-    /// on `tiltFactor`. A `nil` value here means no tilt adjustment.
+    /// on `tiltReductionFactor`. A `nil` value here means no tilt adjustment.
     public var tiltRate: SIMD2<Double>?
 
     /// Creates a new particle system. Most values here have sensible defaults, but you do need
@@ -228,10 +227,10 @@ public class VortexSystem: Codable, Equatable, Hashable {
     ///     particle will finish at size 0.25. Defaults to 1.
     ///   - stretchFactor: How much to stretch this particle's image based on its movement
     ///     speed. Larger values cause more stretching. Defaults to 1 (no stretch).
-    ///   - tiltFactor: How much tilting affects the offset of an items position. Larger values cause less offset.
-    ///     Defaults to nil (no changes from tilt).
+    ///   - tiltReductionFactor: How much tilting affects the offset of an items position. Larger values cause less offset.
+    ///     Defaults to 1 (no reduction to til effects).
     ///   - tiltRate: A point represnting the x and y rotation rate of the device,
-    ///     based on `tiltFactor`. A nil value here means no offset applied. Defaults to `nil`
+    ///     based on `tiltReductionFactor`. A nil value here means no offset applied. Defaults to `nil`
     public init(
         tags: [String],
         secondarySystems: [VortexSystem] = [],
@@ -261,7 +260,7 @@ public class VortexSystem: Codable, Equatable, Hashable {
         sizeVariation: Double = 0,
         sizeMultiplierAtDeath: Double = 1,
         stretchFactor: Double = 1,
-        tiltFactor: Double? = nil,
+        tiltReductionFactor: Double = 1,
         tiltRate: SIMD2<Double>? = nil
     ) {
         self.tags = tags
@@ -292,7 +291,7 @@ public class VortexSystem: Codable, Equatable, Hashable {
         self.sizeVariation = sizeVariation
         self.sizeMultiplierAtDeath = sizeMultiplierAtDeath
         self.stretchFactor = stretchFactor
-        self.tiltFactor = tiltFactor
+        self.tiltReductionFactor = tiltReductionFactor
         self.tiltRate = tiltRate
 
         if case let .randomRamp(allColors) = colors {
@@ -336,7 +335,7 @@ public class VortexSystem: Codable, Equatable, Hashable {
         sizeVariation = try container.decode(Double.self, forKey: .sizeVariation)
         sizeMultiplierAtDeath = try container.decode(Double.self, forKey: .sizeMultiplierAtDeath)
         stretchFactor = try container.decode(Double.self, forKey: .stretchFactor)
-        tiltFactor = try container.decode(Double.self, forKey: .tiltFactor)
+        tiltReductionFactor = try container.decode(Double.self, forKey: .tiltReductionFactor)
         tiltRate = try container.decode(SIMD2<Double>.self, forKey: .tiltRate)
     }
 
@@ -371,7 +370,7 @@ public class VortexSystem: Codable, Equatable, Hashable {
         try container.encode(sizeVariation, forKey: .sizeVariation)
         try container.encode(sizeMultiplierAtDeath, forKey: .sizeMultiplierAtDeath)
         try container.encode(stretchFactor, forKey: .stretchFactor)
-        try container.encode(tiltFactor, forKey: .tiltFactor)
+        try container.encode(tiltReductionFactor, forKey: .tiltReductionFactor)
         try container.encode(tiltRate, forKey: .tiltRate)
     }
 
@@ -418,7 +417,7 @@ public class VortexSystem: Codable, Equatable, Hashable {
             sizeVariation: sizeVariation,
             sizeMultiplierAtDeath: sizeMultiplierAtDeath,
             stretchFactor: stretchFactor,
-            tiltFactor: tiltFactor,
+            tiltReductionFactor: tiltReductionFactor,
             tiltRate: tiltRate
         )
     }

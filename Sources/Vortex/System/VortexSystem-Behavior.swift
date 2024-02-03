@@ -65,10 +65,11 @@ extension VortexSystem {
                 }
             }
 
-            // Update particle position
             let tiltChange = getTiltChange(speed: particle.speed)
-            particle.position.x += particle.speed.x * delta * drawDivisor * tiltChange.1
-            particle.position.y += particle.speed.y * delta * tiltChange.0
+            
+            // Update particle position
+            particle.position.x += particle.speed.x * delta * drawDivisor * tiltChange.x
+            particle.position.y += particle.speed.y * delta * tiltChange.y
 
             if dampingFactor != 1 {
                 let dampingAmount = dampingFactor * delta / lifespan
@@ -119,13 +120,14 @@ extension VortexSystem {
         }
     }
     
-    private func getTiltChange(speed: SIMD2<Double>) -> (Double, Double) {
-        guard let tiltRate, let tiltFactor, tiltFactor > 0 else {
-            return (1.0, 1.0)
+    private func getTiltChange(speed: SIMD2<Double>) -> SIMD2<Double> {
+        guard let tiltRate, tiltReductionFactor > 0 else {
+            return SIMD2(1, 1)
         }
         
-        let xTilt: Double = tiltRate.x / tiltFactor
-        let yTilt: Double = tiltRate.y / tiltFactor
+        // Need to reduce the effects of tilting because it's often too strong by default
+        let xTilt: Double = tiltRate.x / tiltReductionFactor
+        let yTilt: Double = tiltRate.y / tiltReductionFactor
         
         // Make the particles change direction if the tilt is the opposite direction of their speed
         let xChange = (xTilt > 0 && speed.y < 0) || (xTilt < 0 && speed.y < 0) ? -1 * xTilt : xTilt
@@ -133,7 +135,7 @@ extension VortexSystem {
         
         // Generally changes in tilt along the x-axis should be applied to the particle's y speed,
         // and changes in tilt along the x-axis should be applied to the particle's x speed
-        return (xChange, yChange)
+        return SIMD2(yChange, xChange)
     }
 
     /// Used to create a single particle.

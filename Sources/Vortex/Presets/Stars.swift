@@ -5,6 +5,7 @@
 // See LICENSE for license information.
 //
 
+
 import SwiftUI
 
 extension VortexSystem {
@@ -21,7 +22,7 @@ extension VortexSystem {
             colors: .ramp(.blue.opacity(0), .blue, .purple, .purple.opacity(0)),
             size: 0.2,
             sizeVariation: 0.2,
-            tiltFactor: 30
+            tiltReductionFactor: 100
         )
     }()
     
