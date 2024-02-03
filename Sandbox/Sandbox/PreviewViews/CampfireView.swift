@@ -18,7 +18,7 @@ struct CampfireView: View {
     var body: some View {
         VortexViewReader { proxy in
             ZStack {
-                Text("Rotation your device to change the direction of the fire.")
+                Text("Rotate your device to change the direction of the fire.")
 
                 VortexView(.campfire.makeUniqueCopy()) {
                     Circle()
