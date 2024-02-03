@@ -404,7 +404,7 @@ ZStack {
 
 ### Stars
 
-The `.stars` preset creates glowing blue and purple dots that slowly fade out. The stars will slightly change position as the tilt in the device changes. This means using a `VortexViewReader` to gain access to the Vortex proxy, like this:
+The `.stars` preset creates glowing blue and purple dots that slowly fade out. The stars will slightly change position as the tilt of the device changes. This means using a `VortexViewReader` to gain access to the Vortex proxy, like this:
 
 ```swift
 let motion = CMMotionManager()
@@ -430,7 +430,7 @@ VortexViewReader { proxy in
 
 ### Firecracker
 
-The `.firecracker` creates a constant spark effect, when the direction that the sparks fly out changes with the tilt of the device. This means using a `VortexViewReader` to gain access to the Vortex proxy, like this:
+The `.firecracker` creates a constant spark effect, where the direction that the sparks fly out changes with the tilt of the device. This means using a `VortexViewReader` to gain access to the Vortex proxy, like this:
 
 ```swift
 let motion = CMMotionManager()
