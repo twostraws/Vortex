@@ -25,7 +25,7 @@ extension VortexSystem {
             size: 0.1,
             sizeVariation: 0.1,
             stretchFactor: 3,
-            tiltReductionFactor: 40
+            tiltDivisor: 40
         )
     }()
 }

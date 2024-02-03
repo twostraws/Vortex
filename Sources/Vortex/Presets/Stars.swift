@@ -22,7 +22,7 @@ extension VortexSystem {
             colors: .ramp(.blue.opacity(0), .blue, .purple, .purple.opacity(0)),
             size: 0.2,
             sizeVariation: 0.2,
-            tiltReductionFactor: 100
+            tiltDivisor: 100
         )
     }()
     

@@ -65,11 +65,11 @@ extension VortexSystem {
                 }
             }
 
-            let tiltChange = getTiltChange(speed: particle.speed)
+            let tiltFactor = getTiltFactor(speed: particle.speed)
             
             // Update particle position
-            particle.position.x += particle.speed.x * delta * drawDivisor * tiltChange.x
-            particle.position.y += particle.speed.y * delta * tiltChange.y
+            particle.position.x += particle.speed.x * delta * drawDivisor * tiltFactor.x
+            particle.position.y += particle.speed.y * delta * tiltFactor.y
 
             if dampingFactor != 1 {
                 let dampingAmount = dampingFactor * delta / lifespan
@@ -120,22 +120,25 @@ extension VortexSystem {
         }
     }
     
-    private func getTiltChange(speed: SIMD2<Double>) -> SIMD2<Double> {
-        guard let tiltRate, tiltReductionFactor > 0 else {
+    /// Calculates the factor to adjust the speed of a `Particle`.
+    /// - Parameter speed: The speed of a given `Particle`.
+    /// - Returns: An `SIMD2<Double>` representing a factor to apply to the speed of a particle.
+    private func getTiltFactor(speed: SIMD2<Double>) -> SIMD2<Double> {
+        guard let tiltRate, tiltDivisor > 0 else {
             return SIMD2(1, 1)
         }
         
-        // Need to reduce the effects of tilting because it's often too strong by default
-        let xTilt: Double = tiltRate.x / tiltReductionFactor
-        let yTilt: Double = tiltRate.y / tiltReductionFactor
+        // Reduce the effects of tilting if needed
+        let xTilt: Double = tiltRate.x / tiltDivisor
+        let yTilt: Double = tiltRate.y / tiltDivisor
         
         // Make the particles change direction if the tilt is the opposite direction of their speed
-        let xChange = (xTilt > 0 && speed.y < 0) || (xTilt < 0 && speed.y < 0) ? -1 * xTilt : xTilt
-        let yChange = (yTilt > 0 && speed.x < 0) || (yTilt < 0 && speed.x < 0) ? -1 * yTilt : yTilt
+        let xTiltFactor = (xTilt > 0 && speed.y < 0) || (xTilt < 0 && speed.y < 0) ? -1 * xTilt : xTilt
+        let yTiltFactor = (yTilt > 0 && speed.x < 0) || (yTilt < 0 && speed.x < 0) ? -1 * yTilt : yTilt
         
-        // Generally changes in tilt along the x-axis should be applied to the particle's y speed,
-        // and changes in tilt along the x-axis should be applied to the particle's x speed
-        return SIMD2(yChange, xChange)
+        // Changes in tilt along the x-axis are applied to the particles's y speed,
+        // and changes in tilt along the x-axis are applied to the particle's x speed
+        return SIMD2(yTiltFactor, xTiltFactor)
     }
 
     /// Used to create a single particle.
