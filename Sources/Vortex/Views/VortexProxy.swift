@@ -23,9 +23,9 @@ public struct VortexProxy {
     public let attractTo: (CGPoint?) -> Void
     
     /// Tells particles in this system to be positioned based on the devices rotation rate.
-    /// The factor of how much tilt affects a particles position is determined by the value you
-    /// have set for `tiltDivisor`.
-    public let tiltBy: (_ tilt: SIMD2<Double>?) -> Void
+    /// The factor of how much a given rotation affects a particle's position is determined by the value you
+    /// have set for `rotationDivisor`.
+    public let rotateBy: (_ rotation: SIMD2<Double>?) -> Void
 
     /// Move the particle system to a new location, specified in screen coordinates.
     public func move(to newPosition: CGPoint) {

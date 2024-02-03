@@ -65,11 +65,11 @@ extension VortexSystem {
                 }
             }
 
-            let tiltFactor = getTiltFactor(speed: particle.speed)
+            let rotationFactor = getRotationFactor(speed: particle.speed)
             
             // Update particle position
-            particle.position.x += particle.speed.x * delta * drawDivisor * tiltFactor.x
-            particle.position.y += particle.speed.y * delta * tiltFactor.y
+            particle.position.x += particle.speed.x * delta * drawDivisor * rotationFactor.x
+            particle.position.y += particle.speed.y * delta * rotationFactor.y
 
             if dampingFactor != 1 {
                 let dampingAmount = dampingFactor * delta / lifespan
@@ -123,24 +123,24 @@ extension VortexSystem {
     /// Calculates the factor to adjust the speed of a `Particle`.
     /// - Parameter speed: The speed of a given `Particle`.
     /// - Returns: An `SIMD2<Double>` representing a factor to apply to the speed of a particle.
-    private func getTiltFactor(speed: SIMD2<Double>) -> SIMD2<Double> {
-        guard let tiltRate, tiltDivisor > 0 else {
+    private func getRotationFactor(speed: SIMD2<Double>) -> SIMD2<Double> {
+        guard let rotationRate, rotationDivisor > 0 else {
             return SIMD2(1, 1)
         }
         
-        // Reduce the effects of tilting if needed
-        let xTilt: Double = tiltRate.x / tiltDivisor
-        let yTilt: Double = tiltRate.y / tiltDivisor
+        // Reduce the effects of rotationing if needed
+        let xRotation: Double = rotationRate.x / rotationDivisor
+        let yRotation: Double = rotationRate.y / rotationDivisor
         
-        // Make the particles change direction if the tilt is the opposite direction of their speed
-        let xTiltFactor = (xTilt > 0 && speed.y < 0) || (xTilt < 0 && speed.y < 0) ? -1 * xTilt : xTilt
-        let yTiltFactor = (yTilt > 0 && speed.x < 0) || (yTilt < 0 && speed.x < 0) ? -1 * yTilt : yTilt
+        // Make the particles change direction if the rotation is the opposite direction of their speed
+        let xRotationFactor = (xRotation > 0 && speed.y < 0) || (xRotation < 0 && speed.y < 0) ? -1 * xRotation : xRotation
+        let yRotationFactor = (yRotation > 0 && speed.x < 0) || (yRotation < 0 && speed.x < 0) ? -1 * yRotation : yRotation
         
-        // Changes in tilt along the x-axis are applied to the particles's y speed if permitted
-        // and changes in tilt along the x-axis are applied to the particle's x speed if permitted
+        // Changes in rotation along the x-axis are applied to the particles's y speed if permitted
+        // and changes in rotation along the x-axis are applied to the particle's x speed if permitted
         return SIMD2(
-            tiltAxes.contains(.y) ? yTiltFactor : 1,
-            tiltAxes.contains(.x) ? xTiltFactor : 1
+            rotationAxes.contains(.y) ? yRotationFactor : 1,
+            rotationAxes.contains(.x) ? xRotationFactor : 1
         )
     }
 

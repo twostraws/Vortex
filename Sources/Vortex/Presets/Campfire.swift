@@ -22,8 +22,8 @@ extension VortexSystem {
             colors: .ramp(.brown, .brown, .brown, .brown.opacity(0)),
             sizeVariation: 0.5,
             sizeMultiplierAtDeath: 0.2,
-            tiltDivisor: 3,
-            tiltAxes: [.y]
+            rotationDivisor: 3,
+            rotationAxes: [.y]
         )
     }()
 }

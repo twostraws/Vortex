@@ -18,7 +18,7 @@ struct StarsView: View {
     var body: some View {
         VortexViewReader { proxy in
             ZStack {
-                Text("Tilt your device to change the direction of the stars.")
+                Text("Rotation your device to change the direction of the stars.")
                 
                 VortexView(.stars.makeUniqueCopy()) {
                     Circle()
@@ -32,12 +32,12 @@ struct StarsView: View {
                         .tag("sparkle")
                         .blendMode(.plusLighter)
                 }
-                .navigationSubtitle("Demonstrates the stars preset with tilt")
+                .navigationSubtitle("Demonstrates the stars preset with rotation")
                 .ignoresSafeArea(edges: .top)
                 .updateGyroscope(for: motion, updateInterval: 1/120)
                 .onReceive(timer) { _ in
                     if let data = motion.gyroData {
-                        proxy.tiltBy(SIMD2(data.rotationRate.x, data.rotationRate.y))
+                        proxy.rotateBy(SIMD2(data.rotationRate.x, data.rotationRate.y))
                     }
                 }
             }

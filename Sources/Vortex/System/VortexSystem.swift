@@ -15,7 +15,7 @@ public class VortexSystem: Codable, Equatable, Hashable {
         case idleDuration, burstCount, burstCountVariation, lifespan, lifespanVariation, speed, speedVariation, angle
         case angleRange, acceleration, attractionCenter, attractionStrength, dampingFactor, angularSpeed
         case angularSpeedVariation, colors, size, sizeVariation, sizeMultiplierAtDeath, stretchFactor
-        case tiltDivisor, tiltAxes, tiltRate
+        case rotationDivisor, rotationAxes, rotationRate
     }
 
     /// A random identifier that lets us create Equatable and Hashable conformances easily.
@@ -160,16 +160,16 @@ public class VortexSystem: Codable, Equatable, Hashable {
     /// cause more stretching.
     public var stretchFactor: Double
     
-    /// How much to reduce tilt affects on a particle's position. Larger values cause smaller 
+    /// How much to reduce rotation affects on a particle's position. Larger values cause smaller 
     /// changes in a particle's position.
-    public var tiltDivisor: Double
+    public var rotationDivisor: Double
     
-    /// The axes of tilt that can affect the position of the particles.
-    public var tiltAxes: Set<TiltAxis>
+    /// The axes of rotation that can affect the position of the particles.
+    public var rotationAxes: Set<RotationAxis>
     
-    /// The value the device is tilted, changes are based
-    /// on `tiltDivisor`. A `nil` value here means no tilt adjustment.
-    public var tiltRate: SIMD2<Double>?
+    /// The amount the device is rotated, changes are based
+    /// on `rotationDivisor`. A `nil` value here means no rotation adjustment.
+    public var rotationRate: SIMD2<Double>?
 
     /// Creates a new particle system. Most values here have sensible defaults, but you do need
     /// to provide a list of tags matching whatever you're using with `VortexView`.
@@ -232,12 +232,12 @@ public class VortexSystem: Codable, Equatable, Hashable {
     ///     particle will finish at size 0.25. Defaults to 1.
     ///   - stretchFactor: How much to stretch this particle's image based on its movement
     ///     speed. Larger values cause more stretching. Defaults to 1 (no stretch).
-    ///   - tiltDivisor: How much to reduce tilt effects on a particle's position.
-    ///     Larger values cause smaller changes. Defaults to 1 (no reduction to tilt effects).
-    ///   - tiltAxes: The axes of tilt that can affect the position of the particles.
-    ///     Defaults to .allCases (x and y tilt will affect the particle position).
-    ///   - tiltRate: The x and y rotation rate of the device, based on `tiltDivisor`.
-    ///     A nil value here means no tilt effects will be applied. Defaults to `nil`
+    ///   - rotationDivisor: How much to reduce rotation effects on a particle's position.
+    ///     Larger values cause smaller changes. Defaults to 1 (no reduction to rotation effects).
+    ///   - rotationAxes: The axes of rotation that can affect the position of the particles.
+    ///     Defaults to .allCases (x and y rotation will affect the particle position).
+    ///   - rotationRate: The x and y rotation rate of the device, based on `rotationDivisor`.
+    ///     A nil value here means no rotation effects will be applied. Defaults to `nil`
     public init(
         tags: [String],
         secondarySystems: [VortexSystem] = [],
@@ -267,9 +267,9 @@ public class VortexSystem: Codable, Equatable, Hashable {
         sizeVariation: Double = 0,
         sizeMultiplierAtDeath: Double = 1,
         stretchFactor: Double = 1,
-        tiltDivisor: Double = 1,
-        tiltAxes: Set<TiltAxis> = TiltAxis.allCases,
-        tiltRate: SIMD2<Double>? = nil
+        rotationDivisor: Double = 1,
+        rotationAxes: Set<RotationAxis> = RotationAxis.allCases,
+        rotationRate: SIMD2<Double>? = nil
     ) {
         self.tags = tags
         self.secondarySystems = secondarySystems
@@ -299,9 +299,9 @@ public class VortexSystem: Codable, Equatable, Hashable {
         self.sizeVariation = sizeVariation
         self.sizeMultiplierAtDeath = sizeMultiplierAtDeath
         self.stretchFactor = stretchFactor
-        self.tiltDivisor = tiltDivisor
-        self.tiltAxes = tiltAxes
-        self.tiltRate = tiltRate
+        self.rotationDivisor = rotationDivisor
+        self.rotationAxes = rotationAxes
+        self.rotationRate = rotationRate
 
         if case let .randomRamp(allColors) = colors {
             selectedColorRamp = Int.random(in: 0..<allColors.count)
@@ -344,9 +344,9 @@ public class VortexSystem: Codable, Equatable, Hashable {
         sizeVariation = try container.decode(Double.self, forKey: .sizeVariation)
         sizeMultiplierAtDeath = try container.decode(Double.self, forKey: .sizeMultiplierAtDeath)
         stretchFactor = try container.decode(Double.self, forKey: .stretchFactor)
-        tiltDivisor = try container.decode(Double.self, forKey: .tiltDivisor)
-        tiltAxes = try container.decode(Set<TiltAxis>.self, forKey: .tiltAxes)
-        tiltRate = try container.decode(SIMD2<Double>.self, forKey: .tiltRate)
+        rotationDivisor = try container.decode(Double.self, forKey: .rotationDivisor)
+        rotationAxes = try container.decode(Set<RotationAxis>.self, forKey: .rotationAxes)
+        rotationRate = try container.decode(SIMD2<Double>.self, forKey: .rotationRate)
     }
 
     /// Support for `Codable` to make it easier to create an editor UI in the future.
@@ -380,8 +380,8 @@ public class VortexSystem: Codable, Equatable, Hashable {
         try container.encode(sizeVariation, forKey: .sizeVariation)
         try container.encode(sizeMultiplierAtDeath, forKey: .sizeMultiplierAtDeath)
         try container.encode(stretchFactor, forKey: .stretchFactor)
-        try container.encode(tiltDivisor, forKey: .tiltDivisor)
-        try container.encode(tiltRate, forKey: .tiltRate)
+        try container.encode(rotationDivisor, forKey: .rotationDivisor)
+        try container.encode(rotationRate, forKey: .rotationRate)
     }
 
     /// Two particle systems are the same if they they have same identifier.
@@ -427,9 +427,9 @@ public class VortexSystem: Codable, Equatable, Hashable {
             sizeVariation: sizeVariation,
             sizeMultiplierAtDeath: sizeMultiplierAtDeath,
             stretchFactor: stretchFactor,
-            tiltDivisor: tiltDivisor,
-            tiltAxes: tiltAxes,
-            tiltRate: tiltRate
+            rotationDivisor: rotationDivisor,
+            rotationAxes: rotationAxes,
+            rotationRate: rotationRate
         )
     }
 }

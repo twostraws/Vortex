@@ -10,7 +10,7 @@ import CoreMotion
 import SwiftUI
 import Vortex
 
-/// A sample view demonstrating fire particles that blow in the direction of the device's tilt.
+/// A sample view demonstrating fire particles that blow in the direction of the device's rotation.
 struct CampfireView: View {
     let motion: CMMotionManager
     let timer = Timer.publish(every: 1/120, on: .main, in: .common).autoconnect()
@@ -18,7 +18,7 @@ struct CampfireView: View {
     var body: some View {
         VortexViewReader { proxy in
             ZStack {
-                Text("Tilt your device to change the direction of the fire.")
+                Text("Rotation your device to change the direction of the fire.")
 
                 VortexView(.campfire.makeUniqueCopy()) {
                     Circle()
@@ -31,12 +31,12 @@ struct CampfireView: View {
                 .updateGyroscope(for: motion, updateInterval: 1/120)
                 .onReceive(timer) { _ in
                     if let data = motion.gyroData {
-                        proxy.tiltBy(SIMD2(data.rotationRate.x, data.rotationRate.y))
+                        proxy.rotateBy(SIMD2(data.rotationRate.x, data.rotationRate.y))
                     }
                 }
             }
         }
-        .navigationSubtitle("Demonstrates the campfire preset with tilt")
+        .navigationSubtitle("Demonstrates the campfire preset with rotation")
         .ignoresSafeArea(edges: .top)
     }
 }

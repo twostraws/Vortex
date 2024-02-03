@@ -30,15 +30,15 @@ public struct VortexViewReader<Content: View>: View {
             } else {
                 nearestVortexSystem?.attractionCenter = nil
             }
-        } tiltBy: { point in
+        } rotateBy: { point in
             if let point {
-                if let tiltRate = nearestVortexSystem?.tiltRate {
-                    nearestVortexSystem?.tiltRate = SIMD2(x: tiltRate.x + point.x, y: tiltRate.y + point.y)
+                if let rotationRate = nearestVortexSystem?.rotationRate {
+                    nearestVortexSystem?.rotationRate = SIMD2(x: rotationRate.x + point.x, y: rotationRate.y + point.y)
                 } else {
-                    nearestVortexSystem?.tiltRate = point
+                    nearestVortexSystem?.rotationRate = point
                 }
             } else {
-                nearestVortexSystem?.tiltRate = nil
+                nearestVortexSystem?.rotationRate = nil
             }
         }
 
