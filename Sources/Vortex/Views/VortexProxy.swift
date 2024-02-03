@@ -21,6 +21,11 @@ public struct VortexProxy {
     /// screen coordinates. The strength of attraction or repulsion depends on the value you have
     /// set for `attractionStrength`.
     public let attractTo: (CGPoint?) -> Void
+    
+    /// Tells particles in this system to be offset based of the devices rotation rate.
+    /// The factor by which tilt affects a particles position is determined by the values you
+    /// have set for `tiltFactor`
+    public let tiltBy: (SIMD2<Double>?) -> Void
 
     /// Move the particle system to a new location, specified in screen coordinates.
     public func move(to newPosition: CGPoint) {

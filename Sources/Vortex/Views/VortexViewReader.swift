@@ -30,7 +30,18 @@ public struct VortexViewReader<Content: View>: View {
             } else {
                 nearestVortexSystem?.attractionCenter = nil
             }
+        } tiltBy: { point in
+            if let point {
+                if let tiltRate = nearestVortexSystem?.tiltRate {
+                    nearestVortexSystem?.tiltRate = SIMD2(x: tiltRate.x + point.x, y: tiltRate.y + point.y)
+                } else {
+                    nearestVortexSystem?.tiltRate = point
+                }
+            } else {
+                nearestVortexSystem?.tiltRate = nil
+            }
         }
+
 
         /// Renders the views inside this reader, but also looks for Vortex systems inside.
         content(proxy)

@@ -5,10 +5,13 @@
 // See LICENSE for license information.
 //
 
+import CoreMotion
 import SwiftUI
 
 /// The main view for the app, allowing preset selection and display.
 struct ContentView: View {
+    let motion = CMMotionManager()
+    
     var body: some View {
         NavigationSplitView {
             List {
@@ -22,6 +25,8 @@ struct ContentView: View {
                 NavigationLink("Snow", destination: SnowView.init)
                 NavigationLink("Spark", destination: SparkView.init)
                 NavigationLink("Splash", destination: SplashView.init)
+                NavigationLink("Stars", destination: StarsView.init(motion: motion))
+                NavigationLink("Firecracker", destination: FirecrackerView.init(motion: motion))
             }
             .navigationTitle("Vortex Sandbox")
         } detail: {

@@ -23,7 +23,11 @@
 		51FA8CC02B5815FE00C831CA /* SparkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FA8CBF2B5815FE00C831CA /* SparkView.swift */; };
 		51FA8CC22B58162A00C831CA /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FA8CC12B58162A00C831CA /* SplashView.swift */; };
 		51FA8CC52B58263D00C831CA /* PlatformShims.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FA8CC42B58263D00C831CA /* PlatformShims.swift */; };
-		51FA8CD12B58415600C831CA /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = 51FA8CD02B58415600C831CA /* Vortex */; };
+		B830D6652B6DE82A00819857 /* StarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B830D6642B6DE82A00819857 /* StarsView.swift */; };
+		B830D6672B6DE83700819857 /* FirecrackerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B830D6662B6DE83700819857 /* FirecrackerView.swift */; };
+		B830D66A2B6DE85900819857 /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = B830D6692B6DE85900819857 /* Vortex */; };
+		B830D66D2B6DE92900819857 /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = B830D66C2B6DE92900819857 /* Vortex */; };
+		B830D6702B6DEA1900819857 /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = B830D66F2B6DEA1900819857 /* Vortex */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +49,8 @@
 		51FA8CBF2B5815FE00C831CA /* SparkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkView.swift; sourceTree = "<group>"; };
 		51FA8CC12B58162A00C831CA /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		51FA8CC42B58263D00C831CA /* PlatformShims.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformShims.swift; sourceTree = "<group>"; };
+		B830D6642B6DE82A00819857 /* StarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarsView.swift; sourceTree = "<group>"; };
+		B830D6662B6DE83700819857 /* FirecrackerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirecrackerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +58,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				51FA8CD12B58415600C831CA /* Vortex in Frameworks */,
+				B830D66D2B6DE92900819857 /* Vortex in Frameworks */,
+				B830D66A2B6DE85900819857 /* Vortex in Frameworks */,
+				B830D6702B6DEA1900819857 /* Vortex in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,6 +119,8 @@
 				51FA8CBD2B58158500C831CA /* SnowView.swift */,
 				51FA8CBF2B5815FE00C831CA /* SparkView.swift */,
 				51FA8CC12B58162A00C831CA /* SplashView.swift */,
+				B830D6642B6DE82A00819857 /* StarsView.swift */,
+				B830D6662B6DE83700819857 /* FirecrackerView.swift */,
 			);
 			path = PreviewViews;
 			sourceTree = "<group>";
@@ -132,7 +142,9 @@
 			);
 			name = Sandbox;
 			packageProductDependencies = (
-				51FA8CD02B58415600C831CA /* Vortex */,
+				B830D6692B6DE85900819857 /* Vortex */,
+				B830D66C2B6DE92900819857 /* Vortex */,
+				B830D66F2B6DEA1900819857 /* Vortex */,
 			);
 			productName = Sandbox;
 			productReference = 51FA8C962B580CB000C831CA /* Sandbox.app */;
@@ -163,7 +175,7 @@
 			);
 			mainGroup = 51FA8C8D2B580CB000C831CA;
 			packageReferences = (
-				51FA8CCF2B58415600C831CA /* XCRemoteSwiftPackageReference "Vortex" */,
+				B830D66E2B6DEA1900819857 /* XCRemoteSwiftPackageReference "Vortex" */,
 			);
 			productRefGroup = 51FA8C972B580CB000C831CA /* Products */;
 			projectDirPath = "";
@@ -201,7 +213,9 @@
 				51FA8CB02B580EFF00C831CA /* WelcomeView.swift in Sources */,
 				51FA8CBE2B58158500C831CA /* SnowView.swift in Sources */,
 				51FA8CC22B58162A00C831CA /* SplashView.swift in Sources */,
+				B830D6652B6DE82A00819857 /* StarsView.swift in Sources */,
 				51FA8C9C2B580CB000C831CA /* ContentView.swift in Sources */,
+				B830D6672B6DE83700819857 /* FirecrackerView.swift in Sources */,
 				51FA8CB62B5813B200C831CA /* FireworksView.swift in Sources */,
 				51FA8CBC2B58152900C831CA /* SmokeView.swift in Sources */,
 				51FA8C9A2B580CB000C831CA /* SandboxApp.swift in Sources */,
@@ -337,7 +351,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Sandbox/Preview Content\"";
-				DEVELOPMENT_TEAM = B5C26XE59E;
+				DEVELOPMENT_TEAM = HV69QD4SV2;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -373,7 +387,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Sandbox/Preview Content\"";
-				DEVELOPMENT_TEAM = B5C26XE59E;
+				DEVELOPMENT_TEAM = HV69QD4SV2;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -423,7 +437,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		51FA8CCF2B58415600C831CA /* XCRemoteSwiftPackageReference "Vortex" */ = {
+		B830D66E2B6DEA1900819857 /* XCRemoteSwiftPackageReference "Vortex" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/twostraws/Vortex";
 			requirement = {
@@ -434,9 +448,17 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		51FA8CD02B58415600C831CA /* Vortex */ = {
+		B830D6692B6DE85900819857 /* Vortex */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 51FA8CCF2B58415600C831CA /* XCRemoteSwiftPackageReference "Vortex" */;
+			productName = Vortex;
+		};
+		B830D66C2B6DE92900819857 /* Vortex */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Vortex;
+		};
+		B830D66F2B6DEA1900819857 /* Vortex */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B830D66E2B6DEA1900819857 /* XCRemoteSwiftPackageReference "Vortex" */;
 			productName = Vortex;
 		};
 /* End XCSwiftPackageProductDependency section */
