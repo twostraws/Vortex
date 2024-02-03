@@ -228,7 +228,7 @@ public class VortexSystem: Codable, Equatable, Hashable {
     ///     particle will finish at size 0.25. Defaults to 1.
     ///   - stretchFactor: How much to stretch this particle's image based on its movement
     ///     speed. Larger values cause more stretching. Defaults to 1 (no stretch).
-    ///   - tiltDivisor: How much to reduce tilt affects on a particle's position.
+    ///   - tiltDivisor: How much to reduce tilt effects on a particle's position.
     ///     Larger values cause smaller changes. Defaults to 1 (no reduction to tilt effects).
     ///   - tiltRate: The x and y rotation rate of the device, based on `tiltDivisor`.
     ///     A nil value here means no tilt effects will be applied. Defaults to `nil`

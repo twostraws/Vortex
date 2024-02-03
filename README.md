@@ -197,7 +197,7 @@ The `VortexSystem` initializer parameters are:
 - `sizeVariation` (`Double`, defaults to 0) determines how much variation to allow in initial particle size, +/- the base `size` value.
 - `sizeMultiplierAtDeath` (`Double`, defaults to 1) determines how much bigger or smaller particles should be by the time they are destroyed. A value of 1 means the size won't change, whereas a value of 0.5 means particles will be half whatever their initial size was.
 - `stretchFactor` (`Double`, defaults to 1) determines whether particles should be stretched based on their movement speed. A value of 1 means no stretch is applied.
-- `tiltDivisor` (`Double`, defaults to 1) How much to reduce tilt affects on a particle's position.
+- `tiltDivisor` (`Double`, defaults to 1) How much to reduce tilt effects on a particle's position.
     Larger values cause smaller changes. A value of 1 causes no reduction to tilt effects.
 - `tiltRate` (`SIMD2<Double>?`, defaults to `nil`) The x and y rotation rate of the device, based on `tiltDivisor`.
     A nil value here means no tilt effects will be applied.
