@@ -13,7 +13,7 @@ import Vortex
 /// A sample view demonstrating fire particles that blow in the direction of the device's rotation.
 struct CampfireView: View {
     let motion: CMMotionManager
-    let timer = Timer.publish(every: 1/120, on: .main, in: .common).autoconnect()
+    let timer = Timer.publish(every: 1/50, on: .main, in: .common).autoconnect()
     
     var body: some View {
         VortexViewReader { proxy in
@@ -28,7 +28,7 @@ struct CampfireView: View {
                         .blendMode(.plusLighter)
                         .tag("circle")
                 }
-                .updateGyroscope(for: motion, updateInterval: 1/120)
+                .updateGyroscope(for: motion, updateInterval: 1/50)
                 .onReceive(timer) { _ in
                     if let data = motion.gyroData {
                         proxy.rotateBy(SIMD2(data.rotationRate.x, data.rotationRate.y))

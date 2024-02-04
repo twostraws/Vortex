@@ -439,7 +439,7 @@ The `.campfire` creates a campfire effect. This works better when your particles
 
 ```swift
 let motion = CMMotionManager()
-let timer = Timer.publish(every: 1/120, on: .main, in: .common).autoconnect()
+let timer = Timer.publish(every: 1/50, on: .main, in: .common).autoconnect()
     
 VortexViewReader { proxy in
     VortexView(.campfire.makeUniqueCopy()) {
@@ -450,7 +450,7 @@ VortexViewReader { proxy in
             .blendMode(.plusLighter)
             .tag("circle")
     }
-    .updateGyroscope(for: motion, updateInterval: 1/120)
+    .updateGyroscope(for: motion, updateInterval: 1/50)
     .onReceive(timer) { _ in
         if let data = motion.gyroData {
             proxy.rotateBy(SIMD2(data.rotationRate.x, data.rotationRate.y))
