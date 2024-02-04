@@ -14,15 +14,15 @@ extension VortexSystem {
         VortexSystem(
             tags: ["circle"],
             position: [0.5, 1],
-            shape: .box(width: 1, height: 0),
-            birthRate: 800,
-            speed: 0.25,
+            shape: .box(width: 0.2, height: 0),
+            birthRate: 325,
+            speed: 0.2,
             speedVariation: 0.2,
             angleRange: .degrees(10),
+            attractionStrength: 2,
             colors: .ramp(.brown, .brown, .brown, .brown.opacity(0)),
             sizeVariation: 0.5,
-            sizeMultiplierAtDeath: 0.2,
-            rotationDivisor: 3,
+            sizeMultiplierAtDeath: 0.1,
             rotationAxes: [.y]
         )
     }()
