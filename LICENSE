@@ -1,7 +1,7 @@
 Vortex
 MIT License
 
-Copyright (c) 2024 Paul Hudson and other authors.
+Copyright (c) 2024 Paul Hudson.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,50 +20,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-
-
-Many shaders were ported to Metal from elsewhere then had comments added, and
-some were subsequently extended to add extra functionality. The original authors
-and sources and linked below. All licenses are MIT. Any mistakes or performance
-problems introduced in the porting process are entirely my fault.
-
-
-Circle, Circle Wave, Diamond, Diamond Wave
----
-Based on: https://gl-transitions.com/editor/PolkaDotsCurtain
-Original author: bobylito,
-Metal port and enhancements: Paul Hudson
-License: MIT
-
-
-Crosswarp
----
-Based on: https://gl-transitions.com/editor/crosswarp
-Original author: Eke Péter
-Metal port: Paul Hudson
-License: MIT
-
-
-Radial
----
-Based on: https://gl-transitions.com/editor/Radial
-Original author: Xaychru / gre
-Metal port: Paul Hudson
-License: MIT
-
-
-Swirl
----
-Based on: https://gl-transitions.com/editor/Swirl
-Author: Sergey Kosarevsky / gre
-Metal port: Paul Hudson
-License: MIT
-
-
-Wind
----
-Based on: https://gl-transitions.com/editor/wind
-Original author: gre
-Metal port: Paul Hudson
-License: MIT
