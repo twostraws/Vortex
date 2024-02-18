@@ -23,7 +23,7 @@ public class VortexSystem: Codable, Equatable, Hashable {
     // These properties are used for managing a live system, rather
     // than for configuration purposes.
     /// How many particles are waiting to be created. This is particularly useful when
-    /// working with a birth rate below 0, where we want to create one particle every 5
+    /// working with a birth rate below 1, where we want to create one particle every 5
     /// seconds for example.
     var outstandingParticles = 0.0
 
@@ -73,7 +73,7 @@ public class VortexSystem: Codable, Equatable, Hashable {
     /// the system's position.
     public var shape: Shape
 
-    /// How many particles are created every second. You can use values below 0 here, e.g
+    /// How many particles are created every second. You can use values below 1 here, e.g
     /// a birth rate of 0.2 means one particle being created every 5 seconds.
     public var birthRate: Double
 
@@ -174,7 +174,7 @@ public class VortexSystem: Codable, Equatable, Hashable {
     ///   - shape: The shape of this particle system, which controls where particles
     ///     are created relative to the system's position. Defaults to `.point`.
     ///   - birthRate: How many particles are created every second. You can use
-    ///     values below 0 here, e.g a birth rate of 0.2 means one particle being created
+    ///     values below 1 here, e.g a birth rate of 0.2 means one particle being created
     ///     every 5 seconds. Defaults to 100.
     ///   - emissionLimit: The total number of particles this system should create.
     ///     A value of `nil` means no limit. Defaults to `nil`.
