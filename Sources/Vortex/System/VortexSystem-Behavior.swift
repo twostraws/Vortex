@@ -38,7 +38,7 @@ extension VortexSystem {
 
         // Push attraction strength down to a small number, otherwise
         // it's much too strong.
-        var adjustedAttractionStrength = attractionStrength / 1000
+        let adjustedAttractionStrength = attractionStrength / 1000
 
         if let attractionCenter {
             attractionUnitPoint = [attractionCenter.x / drawSize.width, attractionCenter.y / drawSize.height]
