@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="logo.png" alt="Vortex logo" width="808" height="210" />
+    <img src="logo.png" alt="Vortex logo" width="808" />
 </p>
 
 <p align="center">
