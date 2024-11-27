@@ -48,7 +48,7 @@ public class VortexSystem: Codable, Equatable, Hashable {
 
     /// The last size at which this particle system was drawn. Used to let us move
     /// to a particle screen location on demand.
-    var lastDrawSize = CGSize.zero
+    public var lastDrawSize = CGSize.zero
 
     // These properties control system-wide behavior.
     /// The current position of this particle system, in unit space.
