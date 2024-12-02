@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 #if !os(macOS)
 extension View {
     /// A tiny shim to make navigationSubtitle() do nothing everywhere
@@ -16,3 +17,4 @@ extension View {
     }
 }
 #endif
+

@@ -15,11 +15,11 @@ struct ConfettiView: View {
             ZStack {
                 Text("Tap anywhere to create confetti.")
 
-                VortexView(.confetti.makeUniqueCopy()) {
+                VortexView(.confetti) {
                     Rectangle()
                         .fill(.white)
                         .frame(width: 16, height: 16)
-                        .tag("square")
+                        .tag("triangle")
 
                     Circle()
                         .fill(.white)

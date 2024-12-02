@@ -9,7 +9,7 @@ import Foundation
 
 extension VortexSystem {
     /// Controls how colors are applied to particles inside a Vortex system.
-    public enum ColorMode: Codable {
+    public enum ColorMode: Sendable, Equatable, Hashable, Codable {
         /// Particles should always be created with a single color.
         case single(_ color: Color)
 
@@ -40,5 +40,6 @@ extension VortexSystem {
         public static func randomRamp(_ colors: [Color]...) -> ColorMode {
             .randomRamp(colors)
         }
+        
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 extension VortexSystem {
     /// A Vortex color struct that gives easy access to its RGBA values, and is also `Codable`.
-    public struct Color: Codable, ExpressibleByArrayLiteral, Hashable {
+    public struct Color: Sendable, Equatable, Hashable, Codable, ExpressibleByArrayLiteral  {
         public var red: Double
         public var green: Double
         public var blue: Double

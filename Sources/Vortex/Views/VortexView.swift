@@ -6,18 +6,20 @@
 //
 
 import SwiftUI
+import OSLog
 
 /// A SwiftUI view that renders a Vortex particle system.
 public struct VortexView<Symbols>: View where Symbols: View {
+    
     /// The list of SwiftUI views that should be used to draw particles.
     @ViewBuilder var symbols: Symbols
-
+    
     /// The primary system this is responsible for drawing.
     @State private var particleSystem: VortexSystem
-
+    
     /// The ideal frame rate for updating particles. Using lower frame rates saves CPU time.
     public var targetFrameRate: Int
-
+    
     public var body: some View {
         TimelineView(.animation(minimumInterval: 1 / Double(targetFrameRate))) { timeline in
             Canvas { context, size in
@@ -29,18 +31,34 @@ public struct VortexView<Symbols>: View where Symbols: View {
         }
         .preference(key: VortexSystemPreferenceKey.self, value: particleSystem)
     }
-
+    
     /// Creates a new VortexView from a pre-configured particle system, along with all the SwiftUI
-    /// views to render as particles.
+    /// views to render as particles. Sensible defaults will be used if no parameters are passed.
     /// - Parameters:
-    ///   - system: The primary particle system you want to render.
-    ///   - symbols: A list of SwiftUI views to use as particles.
-    public init(_ system: VortexSystem, targetFrameRate: Int = 60, @ViewBuilder symbols: () -> Symbols) {
-        _particleSystem = State(initialValue: system)
+    ///   - settings: A vortexSettings struct that should be used to generate a particle system. 
+    ///               Typically this will be set using a preset static struct, e.g. `.fire`. Defaults to a simple system.
+    ///   - targetFrameRate: The ideal frame rate for updating particles. Defaults to 60 if not specified. (use 120 on Pro model iPhones/iPads )
+    ///   - symbols:  A closure that should return a tagged group of SwiftUI views to use as particles. 
+    ///               If not specified, a default group of three views tagged with `.circle`,`.triangle` and `.sparkle` will be used.
+    public init(
+        _ settings: VortexSystem.Settings = .init(),
+        targetFrameRate: Int = 60, 
+        @ViewBuilder symbols: () -> Symbols = {
+            Group {
+                Image.circle
+                    .frame(width: 16).blendMode(.plusLighter).tag("circle")
+                Image.confetti
+                    .frame(width: 16, height: 16).blendMode(.plusLighter).tag("triangle") 
+                Image.sparkle
+                    .frame(width: 16, height: 16).blendMode(.plusLighter).tag("sparkle") 
+            }
+        }
+    ) {
+        _particleSystem = State( initialValue: VortexSystem(settings) ) 
         self.targetFrameRate = targetFrameRate
         self.symbols = symbols()
     }
-
+    
     /// Draws one particle system inside the canvas.
     /// - Parameters:
     ///   - particleSystem: The particle system to draw.
@@ -49,8 +67,12 @@ public struct VortexView<Symbols>: View where Symbols: View {
     private func draw(_ particleSystem: VortexSystem, into context: GraphicsContext, at size: CGSize) {
         for particle in particleSystem.particles {
             // Find the appropriate tag for this particle.
+            // If it's not found, generate an error message in the console log
             guard let symbol = context.resolveSymbol(id: particle.tag) else {
-                print("VortexView: Unable to locate symbol named \(particle.tag).")
+                let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Vortex", category: "SymbolError")
+                logger .error( "VortexView: Unable to locate symbol named \(particle.tag, privacy: .public)." )
+                // Currently, a logger call within this scenario does not output to XCode Preview console, so... print :(
+                print("VortexView: Unable to locate symbol named \(particle.tag)" )
                 continue
             }
 
