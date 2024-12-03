@@ -34,8 +34,22 @@ public struct VortexView<Symbols>: View where Symbols: View {
     /// views to render as particles.
     /// - Parameters:
     ///   - system: The primary particle system you want to render.
-    ///   - symbols: A list of SwiftUI views to use as particles.
-    public init(_ system: VortexSystem, targetFrameRate: Int = 60, @ViewBuilder symbols: () -> Symbols) {
+    ///   - symbols: A closure that should return one or more SwiftUI views to use as particles. 
+    ///              If a closure is not supplied, a default group of symbols will be provided; tagged with 'circle', 'triangle' and 'sparkle'.
+    public init(
+        _ system: VortexSystem, 
+        targetFrameRate: Int = 60, 
+        @ViewBuilder symbols: () -> Symbols = {
+            Group {
+                Image.circle
+                    .frame(width: 16).blendMode(.plusLighter).tag("circle")
+                Image.confetti
+                    .frame(width: 16, height: 16).blendMode(.plusLighter).tag("confetti") 
+                Image.sparkle
+                    .frame(width: 16, height: 16).blendMode(.plusLighter).tag("sparkle") 
+            }
+        }
+    ) {
         _particleSystem = State(initialValue: system)
         self.targetFrameRate = targetFrameRate
         self.symbols = symbols()
