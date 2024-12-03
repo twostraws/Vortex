@@ -9,7 +9,7 @@ import Foundation
 
 extension VortexSystem {
     /// Controls where particles are created inside the particle system.
-    public enum Shape: Codable {
+    public enum Shape: Sendable, Equatable, Hashable, Codable {
         /// All particles are created from the center of the particle system.
         case point
 

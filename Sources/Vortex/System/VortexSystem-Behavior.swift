@@ -24,11 +24,11 @@ extension VortexSystem {
         let delta = currentTimeInterval - lastUpdate
         lastUpdate = currentTimeInterval
 
-        if isEmitting && lastUpdate - lastIdleTime > emissionDuration {
-            isEmitting = false
+        if vortexSettings.isEmitting && lastUpdate - lastIdleTime > vortexSettings.emissionDuration {
+            vortexSettings.isEmitting = false
             lastIdleTime = lastUpdate
-        } else if isEmitting == false && lastUpdate - lastIdleTime > idleDuration {
-            isEmitting = true
+        } else if vortexSettings.isEmitting == false && lastUpdate - lastIdleTime > vortexSettings.idleDuration {
+            vortexSettings.isEmitting = true
             lastIdleTime = lastUpdate
         }
 
@@ -38,9 +38,9 @@ extension VortexSystem {
 
         // Push attraction strength down to a small number, otherwise
         // it's much too strong.
-        let adjustedAttractionStrength = attractionStrength / 1000
+        let adjustedAttractionStrength = vortexSettings.attractionStrength / 1000
 
-        if let attractionCenter {
+        if let attractionCenter = vortexSettings.attractionCenter {
             attractionUnitPoint = [attractionCenter.x / drawSize.width, attractionCenter.y / drawSize.height]
         }
 
@@ -69,18 +69,18 @@ extension VortexSystem {
             particle.position.x += particle.speed.x * delta * drawDivisor
             particle.position.y += particle.speed.y * delta
 
-            if dampingFactor != 1 {
-                let dampingAmount = dampingFactor * delta / lifespan
+            if vortexSettings.dampingFactor != 1 {
+                let dampingAmount = vortexSettings.dampingFactor * delta / vortexSettings.lifespan
                 particle.speed -= particle.speed * dampingAmount
             }
 
-            particle.speed += acceleration * delta
+            particle.speed += vortexSettings.acceleration * delta
             particle.angle += particle.angularSpeed * delta
 
             particle.currentColor = particle.colors.lerp(by: lifeProgress)
 
             particle.currentSize = particle.initialSize.lerp(
-                to: particle.initialSize * sizeMultiplierAtDeath,
+                to: particle.initialSize * vortexSettings.sizeMultiplierAtDeath,
                 amount: lifeProgress
             )
 
@@ -94,8 +94,11 @@ extension VortexSystem {
         }
     }
 
+    /// Create particles that should have been created between now and the last update time. (delta)
+    /// Note that the birthrate can be fractional, e.g. 0.2, to generate a particle every 5 seconds,
+    /// so keeping track of fractional outstanding particles is necessary
     private func createParticles(delta: Double) {
-        outstandingParticles += birthRate * delta
+        outstandingParticles += vortexSettings.birthRate * delta
 
         if outstandingParticles >= 1 {
             let particlesToCreate = Int(outstandingParticles)
@@ -108,10 +111,11 @@ extension VortexSystem {
         }
     }
 
+    /// Update each secondary system, and remove those that have expired.
     private func updateSecondarySystems(date: Date, drawSize: CGSize) {
         for activeSecondarySystem in activeSecondarySystems {
             activeSecondarySystem.update(date: date, drawSize: drawSize)
-
+            // If a system has emitted particles, but currently has none, remove it.
             if activeSecondarySystem.particles.isEmpty && activeSecondarySystem.emissionCount > 0 {
                 activeSecondarySystems.remove(activeSecondarySystem)
             }
@@ -122,19 +126,19 @@ extension VortexSystem {
     /// - Parameter force: When true, this will create a particle even if
     /// this system has already reached its emission limit.
     func createParticle(force: Bool = false) {
-        guard isEmitting else { return }
+        guard vortexSettings.isEmitting else { return }
 
-        if let emissionLimit {
+        if let emissionLimit = vortexSettings.emissionLimit {
             if emissionCount >= emissionLimit && force == false {
                 return
             }
         }
 
         // We subtract half of pi here to ensure that angle 0 is directly up.
-        let launchAngle = angle.radians + angleRange.radians.randomSpread() - .pi / 2
-        let launchSpeed = speed + speedVariation.randomSpread()
-        let lifespan = lifespan + lifespanVariation.randomSpread()
-        let size = size + sizeVariation.randomSpread()
+        let launchAngle = vortexSettings.angle.radians + vortexSettings.angleRange.radians.randomSpread() - .pi / 2
+        let launchSpeed = vortexSettings.speed + vortexSettings.speedVariation.randomSpread()
+        let lifespan = vortexSettings.lifespan + vortexSettings.lifespanVariation.randomSpread()
+        let size = vortexSettings.size + vortexSettings.sizeVariation.randomSpread()
         let particlePosition = getNewParticlePosition()
 
         let speed = SIMD2(
@@ -142,11 +146,11 @@ extension VortexSystem {
             sin(launchAngle) * launchSpeed
         )
 
-        let spinSpeed = angularSpeed + angularSpeedVariation.randomSpread()
+        let spinSpeed = vortexSettings.angularSpeed + vortexSettings.angularSpeedVariation.randomSpread()
         let colorRamp = getNewParticleColorRamp()
 
         let newParticle = Particle(
-            tag: tags.randomElement() ?? "",
+            tag: vortexSettings.tags.randomElement() ?? "",
             position: particlePosition,
             speed: speed,
             birthTime: lastUpdate,
@@ -163,7 +167,7 @@ extension VortexSystem {
 
     /// Force a bunch of particles to be created immediately.
     func burst() {
-        let particlesToCreate = burstCount + burstCountVariation.randomSpread()
+        let particlesToCreate = vortexSettings.burstCount + vortexSettings.burstCountVariation.randomSpread()
 
         for _ in 0..<particlesToCreate {
             createParticle(force: true)
@@ -172,24 +176,26 @@ extension VortexSystem {
 
     /// Finds and creates any appropriate secondary systems for this particle.
     func spawn(from particle: Particle, event: SpawnOccasion) {
-        let secondarySystems = secondarySystems.filter { $0.spawnOccasion == event }
-
-        for secondarySystem in secondarySystems {
-            let newSystem = secondarySystem.makeUniqueCopy()
-            newSystem.position = particle.position
-            activeSecondarySystems.insert(newSystem)
+        let secondarySettings = vortexSettings.secondarySettings.filter {
+            $0.spawnOccasion == event
+        }
+        for secondarySetting in secondarySettings {
+            let secondarySystem = VortexSystem(secondarySetting)
+            secondarySystem.vortexSettings.position = particle.position
+            activeSecondarySystems.insert(secondarySystem)
         }
     }
 
+    /// Calculate a starting position for a new particle, based on the `shape` configuration setting.
     func getNewParticlePosition() -> SIMD2<Double> {
-        switch shape {
+        switch vortexSettings.shape {
         case .point:
-            return position
+                return vortexSettings.position
 
         case .box(let width, let height):
             return [
-                position.x + width.randomSpread(),
-                position.y + height.randomSpread()
+                vortexSettings.position.x + width.randomSpread(),
+                vortexSettings.position.y + height.randomSpread()
             ]
 
         case .ellipse(let radius):
@@ -197,22 +203,22 @@ extension VortexSystem {
             let placement = Double.random(in: 0...radius / 2)
 
             return [
-                placement * cos(angle) + position.x,
-                placement * sin(angle) + position.y
+                placement * cos(angle) + vortexSettings.position.x,
+                placement * sin(angle) + vortexSettings.position.y
             ]
 
         case .ring(let radius):
             let angle = Double.random(in: 0...(2 * .pi))
-
+            let placement = radius / 2
             return [
-                radius / 2 * cos(angle) + position.x,
-                radius / 2 * sin(angle) + position.y
+                placement * cos(angle) + vortexSettings.position.x,
+                placement * sin(angle) + vortexSettings.position.y
             ]
         }
     }
 
     func getNewParticleColorRamp() -> [Color] {
-        switch colors {
+        switch vortexSettings.colors {
         case .single(let color):
             return [color]
 
@@ -227,7 +233,7 @@ extension VortexSystem {
             return colors
 
         case .randomRamp(let colors):
-            return colors[selectedColorRamp]
+            return colors[vortexSettings.selectedColorRamp]
         }
     }
 }

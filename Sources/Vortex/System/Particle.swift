@@ -9,7 +9,7 @@ import SwiftUI
 
 extension VortexSystem {
     /// One particle in a Vortex system.
-    public struct Particle: Hashable {
+    public struct Particle: Sendable, Equatable, Hashable {
         /// The tag for this particle, which should match one of the tags attached to
         /// the SwiftUI views you're passing into a `VortexView`.
         var tag: String

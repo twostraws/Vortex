@@ -9,7 +9,7 @@ import Foundation
 
 extension VortexSystem {
     /// Controls when secondary systems are created.
-    public enum SpawnOccasion: Codable {
+    public enum SpawnOccasion: Sendable, Equatable, Hashable, Codable {
         /// Creates a new system at the same time as creating a new particle.
         case onBirth
 
@@ -20,3 +20,4 @@ extension VortexSystem {
         case onUpdate
     }
 }
+

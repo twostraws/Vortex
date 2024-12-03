@@ -26,7 +26,7 @@ public struct VortexProxy {
     public func move(to newPosition: CGPoint) {
         guard let particleSystem else { return }
 
-        particleSystem.position = [
+        particleSystem.vortexSettings.position = [
             newPosition.x / particleSystem.lastDrawSize.width,
             newPosition.y / particleSystem.lastDrawSize.height
         ]
