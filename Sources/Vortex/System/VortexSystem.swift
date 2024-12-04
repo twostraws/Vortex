@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// The main particle system generator class that powers Vortex.
-public class VortexSystem: Codable, Equatable, Hashable {
+public class VortexSystem: Codable, Identifiable, Equatable, Hashable {
     /// The subset of properties we need to load and save to handle Codable correctly.
     enum CodingKeys: CodingKey {
         case tags, secondarySystems, spawnOccasion, position, shape, birthRate, emissionLimit, emissionDuration
@@ -17,8 +17,17 @@ public class VortexSystem: Codable, Equatable, Hashable {
         case angularSpeedVariation, colors, size, sizeVariation, sizeMultiplierAtDeath, stretchFactor
     }
 
-    /// A random identifier that lets us create Equatable and Hashable conformances easily.
-    let id = UUID()
+    /// A public identifier  to satisfy Identifiable
+    public let id = UUID()
+    /// Equatable conformance
+    public static func == (lhs: VortexSystem, rhs: VortexSystem) -> Bool {
+        lhs.id == rhs.id
+    }
+    /// Hashable conformance
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    } 
+
 
     // These properties are used for managing a live system, rather
     // than for configuration purposes.
@@ -282,87 +291,6 @@ public class VortexSystem: Codable, Equatable, Hashable {
         if case let .randomRamp(allColors) = colors {
             selectedColorRamp = Int.random(in: 0..<allColors.count)
         }
-    }
-
-    /// Support for `Codable` to make it easier to create an editor UI in the future.
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        tags = try container.decode([String].self, forKey: .tags)
-        secondarySystems = try container.decode([VortexSystem].self, forKey: .secondarySystems)
-        spawnOccasion = try container.decode(SpawnOccasion.self, forKey: .spawnOccasion)
-        position = try container.decode(SIMD2<Double>.self, forKey: .position)
-        shape = try container.decode(Shape.self, forKey: .shape)
-        birthRate = try container.decode(Double.self, forKey: .birthRate)
-        emissionLimit = try container.decodeIfPresent(Int.self, forKey: .emissionLimit)
-        emissionDuration = try container.decode(Double.self, forKey: .emissionDuration)
-        idleDuration = try container.decode(Double.self, forKey: .idleDuration)
-        burstCount = try container.decode(Int.self, forKey: .burstCount)
-        burstCountVariation = try container.decode(Int.self, forKey: .burstCountVariation)
-        lifespan = try container.decode(Double.self, forKey: .lifespan)
-        lifespanVariation = try container.decode(Double.self, forKey: .lifespanVariation)
-        speed = try container.decode(Double.self, forKey: .speed)
-        speedVariation = try container.decode(Double.self, forKey: .speedVariation)
-
-        let angleRadians = try container.decode(Double.self, forKey: .angle)
-        angle = Angle(radians: angleRadians)
-
-        let angleRangeRadians = try container.decode(Double.self, forKey: .angleRange)
-        angleRange = Angle(radians: angleRangeRadians)
-
-        acceleration = try container.decode(SIMD2<Double>.self, forKey: .acceleration)
-        attractionCenter = try container.decodeIfPresent(SIMD2<Double>.self, forKey: .attractionCenter)
-        attractionStrength = try container.decode(Double.self, forKey: .attractionStrength)
-        dampingFactor = try container.decode(Double.self, forKey: .dampingFactor)
-        angularSpeed = try container.decode(SIMD3<Double>.self, forKey: .angularSpeed)
-        angularSpeedVariation = try container.decode(SIMD3<Double>.self, forKey: .angularSpeedVariation)
-        colors = try container.decode(ColorMode.self, forKey: .colors)
-        size = try container.decode(Double.self, forKey: .size)
-        sizeVariation = try container.decode(Double.self, forKey: .sizeVariation)
-        sizeMultiplierAtDeath = try container.decode(Double.self, forKey: .sizeMultiplierAtDeath)
-        stretchFactor = try container.decode(Double.self, forKey: .stretchFactor)
-    }
-
-    /// Support for `Codable` to make it easier to create an editor UI in the future.
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(tags, forKey: .tags)
-        try container.encode(secondarySystems, forKey: .secondarySystems)
-        try container.encode(spawnOccasion, forKey: .spawnOccasion)
-        try container.encode(position, forKey: .position)
-        try container.encode(shape, forKey: .shape)
-        try container.encode(birthRate, forKey: .birthRate)
-        try container.encode(emissionLimit, forKey: .emissionLimit)
-        try container.encode(emissionDuration, forKey: .emissionDuration)
-        try container.encode(idleDuration, forKey: .idleDuration)
-        try container.encode(burstCount, forKey: .burstCount)
-        try container.encode(burstCountVariation, forKey: .burstCountVariation)
-        try container.encode(lifespan, forKey: .lifespan)
-        try container.encode(lifespanVariation, forKey: .lifespanVariation)
-        try container.encode(speed, forKey: .speed)
-        try container.encode(speedVariation, forKey: .speedVariation)
-        try container.encode(angle.radians, forKey: .angle)
-        try container.encode(angleRange.radians, forKey: .angleRange)
-        try container.encode(acceleration, forKey: .acceleration)
-        try container.encode(attractionCenter, forKey: .attractionCenter)
-        try container.encode(attractionStrength, forKey: .attractionStrength)
-        try container.encode(dampingFactor, forKey: .dampingFactor)
-        try container.encode(angularSpeed, forKey: .angularSpeed)
-        try container.encode(angularSpeedVariation, forKey: .angularSpeedVariation)
-        try container.encode(colors, forKey: .colors)
-        try container.encode(size, forKey: .size)
-        try container.encode(sizeVariation, forKey: .sizeVariation)
-        try container.encode(sizeMultiplierAtDeath, forKey: .sizeMultiplierAtDeath)
-        try container.encode(stretchFactor, forKey: .stretchFactor)
-    }
-
-    /// Two particle systems are the same if they they have same identifier.
-    public static func == (lhs: VortexSystem, rhs: VortexSystem) -> Bool {
-        lhs.id == rhs.id
-    }
-
-    /// The hash value for this system is simply its identifier.
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
     }
 
     /// Because particle systems are classes rather than structs, we need to make deep
