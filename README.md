@@ -39,85 +39,78 @@ This repository contains a cross-platform sample project demonstrating all the p
 
 ![The Vortex Sandbox app demonstrating several built-in particle presets.](sandbox-preview.gif)
 
+There are also a number of Xcode previews created for a selected number of the presets contained in the Presets folder.
 
 ## Basic use
 
-Rendering a Vortex particle system takes two steps:
-
-1. Creating an instance of `VortexSystem`, configured for how you want your particles to behave. This must be given a list of tag names of the particles you want to render.
-2. Adding a `VortexView` to your SwiftUI view hierarchy, passing in the particle system to render, and also all the views that are used for particles, tagged using the same names from step 1.
-
-There are lots of built-in particle system designs, such as rain:
-
+Rendering a Vortex particle system using a preset configuration takes a single line! 
 ```swift
-VortexView(.rain) {
-    Circle()
-        .fill(.white)
-        .frame(width: 32)
-        .tag("circle")
-}
+VortexView(.rain) 
 ```
 
-Fireworks:
+There are lots of built-in particle system designs, such as Fireworks (.fireworks) and Fire (.fire)
 
-```swift
-VortexView(.fireworks) {
-    Circle()
-        .fill(.white)
-        .blendMode(.plusLighter)
-        .frame(width: 32)
-        .tag("circle")
-}
-```
 
-And fire:
-
-```swift
-VortexView(.fire) {
-    Circle()
-        .fill(.white)
-        .blendMode(.plusLighter)
-        .blur(radius: 3)
-        .frame(width: 32)
-        .tag("circle")
-}
-```
-
-> [!Note]
-> Each preset is designed to look for one or more tags; please check their documentation below for the correct tags to provide.
-
-You can also create completely custom effects, like this:
-
+You can also easily create custom effects, in two steps:
+1. Creating an instance of `VortexSystem.Settings`, configured for how you want your particles to behave. The easiest way to create Settings is to modify an existing one. (example below)
+2. Call `VortexView` with the settings you just created.
+e.g. 
 ```swift
 struct ContentView: View {
     var body: some View {
-        VortexView(createSnow()) {
+        let fireSettings = VortexSystem.Settings(from: .fire ) { settings in
+            settings.position = [ 0.5, 1.03]
+            settings.shape = .box(width: 1.0, height: 0)
+            settings.birthRate = 600 
+        } 
+        VortexView(settings: fireSettings)
+    } 
+}
+```
+
+## Next steps
+
+All the existing presets use built-in Images that are tagged with "circle", "confetti", or "sparkle"
+You can however use your own views within the particle system, you just need to add them to a trailing closure for VortexView and tag them appropriately.
+e.g.
+
+```swift
+struct ContentView: View {
+    let snow = VortexSystem.Settings { settings in 
+        settings.tags = ["snow"]
+        settings.position = [0.5, 0]
+        settings.speed = 0.5
+        settings.speedVariation = 0.25
+        settings.lifespan = 3
+        settings.shape = .box(width: 1, height: 0)
+        settings.angle = .degrees(180)
+        settings.angleRange = .degrees(20)
+        settings.size = 0.25
+        settings.sizeVariation = 0.5
+    }
+    var body: some View {
+
+        VortexView(settings: snow) {
             Circle()
                 .fill(.white)
                 .blur(radius: 5)
                 .frame(width: 32)
-                .tag("circle")
+                .tag("snow")
         }
-    }
-
-    func createSnow() -> VortexSystem {
-        let system = VortexSystem(tags: ["circle"])
-        system.position = [0.5, 0]
-        system.speed = 0.5
-        system.speedVariation = 0.25
-        system.lifespan = 3
-        system.shape = .box(width: 1, height: 0)
-        system.angle = .degrees(180)
-        system.angleRange = .degrees(20)
-        system.size = 0.25
-        system.sizeVariation = 0.5
-        return system
     }
 }
 ```
 
-> [!Note] 
-> `VortexView` does not copy the particle system you provide unless you specifically ask for it using `yourSystem.makeUniqueCopy()`. This allows you to create a particle system once and re-use it in multiple places without losing its state.
+> [!Tip]
+> When creating settings, open the Xcode inspector and show Quick Help (question mark)
+> Each property has help text defined to explain what it is and what the defaults are.
+> You can discover properties from autocomplete (e.g. after typing `settings.`) 
+
+
+> [!Note]
+> The Settings that you use has a `tags` property, that must match the `.tag(:String)` property modifier on the view.
+> The Fireworks preset contains an examples where more than one View is used within the particle system.
+
 
 
 ## Programmatic particle control
@@ -130,11 +123,11 @@ For example, this uses the built-in `.confetti` effect, then uses the Vortex pro
 
 ```swift
 VortexViewReader { proxy in
-    VortexView(.confetti) {
+    VortexView(settings: .confetti) {
         Rectangle()
             .fill(.white)
             .frame(width: 16, height: 16)
-            .tag("square")
+            .tag("confetti")
 
         Circle()
             .fill(.white)
@@ -147,6 +140,7 @@ VortexViewReader { proxy in
 ```
 
 You can also use the proxy's `attractTo()` method to make particles move towards or away from a specific point, specified in screen coordinates. The exact behavior depends on the value you assign to the `attractionStrength` property of your particle system: positive values move towards your attraction point, whereas negative values move away.
+Check the Xcode Preview of the Fireflies preset to see this in action.
 
 > [!Tip]
 > Call `attractTo()` with `nil` as its parameter to clear the attraction point.
@@ -157,12 +151,13 @@ You can also use the proxy's `attractTo()` method to make particles move towards
 One of the more advanced Vortex features is the ability create secondary particle systems – for each particle in one system to create a new particle system. This enables creation of multi-stage effects, such as fireworks: one particle launches upwards, setting off sparks as it flies, then exploding into color when it dies.
 
 > [!Important]
-> When creating particle systems with secondary systems inside, both the primary and secondary system can have their own set of tags. However, you must provide all tags from all systems when creating your `ParticleView`.
+> When creating particle systems with secondary systems inside, both the primary and secondary system can have their own set of tags. However, you must provide all tags from all systems when creating the `VortexView`.
 
 
 ## Creating custom particle systems
 
-The initializer for `VortexSystem` takes a wide range of configuration options to control how your particle systems behave. All but one of these has a sensible default value, allowing you to get started quickly and adjust things on the fly.
+The initializer for `VortexSystem.Settings` has sensible defaults for a wide range of configuration options to control how your particle systems behave.
+For details on each of them, expand the list below.
 
 <details>
 <summary> Details (Click to expand) </summary>
@@ -170,7 +165,7 @@ The initializer for `VortexSystem` takes a wide range of configuration options t
 The `VortexSystem` initializer parameters are:
 
 - `tags` (`[String]`, *required*) should be the names of one or more views you're passing into a `VortexView` to render this particle system. This string array might only be *some* of the views you're passing in – you might have a secondary system that uses different tags, for example.
-- `secondarySystems` (`[VortexSystem]`, defaults to an empty array) should contain all the secondary particle systems that should be attached to this primary emitter.
+- `secondarySettings` (`[VortexSystem.Settings]`, defaults to an empty array) should contain all the secondary particle settings that should be attached to this primary emitter.
 - `spawnOccasion` (`SpawnOccasion`, defaults to `.onBirth`) determines when this secondary system should be created. Ignored if this is your primary particle system.
 - `position` (`SIMD2<Double>`, defaults to `[0.5, 0.5]`) determines the center position of this particle system.
 - `shape` (`Shape`, defaults to `.point`) determines the bounds of where particles are emitted. 
@@ -240,18 +235,7 @@ The `.confetti` preset creates a confetti effect where views fly shoot out when 
 
 ```swift
 VortexViewReader { proxy in
-    VortexView(.confetti) {
-        Rectangle()
-            .fill(.white)
-            .frame(width: 16, height: 16)
-            .tag("square")
-        
-        Circle()
-            .fill(.white)
-            .frame(width: 16)
-            .tag("circle")
-    }
-    
+    VortexView(.confetti) 
     Button("Burst", action: proxy.burst)
 }
 ```
@@ -259,17 +243,10 @@ VortexViewReader { proxy in
 
 ### Fire
 
-The `.fire` preset creates a flame effect. This works better when your particles have a soft edge, and use a `.plusLighter` blend mode, like this:
+The `.fire` preset creates a flame effect. 
 
 ```swift
-VortexView(.fire) {
-    Circle()
-        .fill(.white)
-        .frame(width: 32)
-        .blur(radius: 3)
-        .blendMode(.plusLighter)
-        .tag("circle")
-}
+VortexView(.fire) 
 ```
 
 
@@ -294,14 +271,8 @@ VortexView(.fireflies) {
 The `.fireworks` preset creates a three-stage particle effect to simulate exploding fireworks. Each firework is a particle, and also launches new "spark" particles as it flies upwards. When the firework particle is destroyed, it creates an explosion effect in a range of colors.
 
 ```swift
-VortexView(.fireworks) {
-    Circle()
-        .fill(.white)
-        .frame(width: 32)
-        .blur(radius: 5)
-        .blendMode(.plusLighter)
-        .tag("circle")
-}
+VortexView(.fireworks) 
+
 ```
 
 
@@ -310,11 +281,7 @@ VortexView(.fireworks) {
 The `.magic` preset creates a simple ring of particles that fly outwards as they fade out. This works best using the "sparkle" image contained in the Assets folder of this repository, but you can use any other image or shape you prefer.
 
 ```swift
-VortexView(.magic) {
-    Image(.sparkle)
-        .blendMode(.plusLighter)
-        .tag("sparkle")
-}
+VortexView(.magic) 
 ```
 
 
@@ -323,12 +290,7 @@ VortexView(.magic) {
 The `.rain` preset creates a rainfall system by stretching your view based on the rain speed:
 
 ```swift
-VortexView(.rain) {
-    Circle()
-        .fill(.white)
-        .frame(width: 32)
-        .tag("circle")
-}
+VortexView(.rain) 
 ```
 
 
@@ -349,16 +311,10 @@ VortexView(.smoke) {
 
 ### Snow
 
-The `.snow` preset creates a falling snow effect. This works best when your views have soft edges, like this:
+The `.snow` preset creates a falling snow effect. 
 
 ```swift
-VortexView(.snow) {
-    Circle()
-        .fill(.white)
-        .frame(width: 24)
-        .blur(radius: 5)
-        .tag("circle")
-}
+VortexView(.snow) 
 ```
 
 
@@ -367,12 +323,7 @@ VortexView(.snow) {
 The `.spark` preset creates an intermittent spark effect, where sparks fly out for a short time, then pause, then fly out again, etc.
 
 ```swift
-VortexView(.spark) {
-    Circle()
-        .fill(.white)
-        .frame(width: 16)
-        .tag("circle")
-}
+VortexView(.spark) 
 ```
 
 
@@ -382,23 +333,21 @@ The `.splash` present contains raindrop splashes, as if rain were hitting the gr
 
 ```swift
 ZStack {
-    VortexView(.rain) {
-        Circle()
-            .fill(.white)
-            .frame(width: 32)
-            .tag("circle")
-    }
-
-    VortexView(.splash) {
-        Circle()
-            .fill(.white)
-            .frame(width: 16, height: 16)
-            .tag("circle")
-    }
+    VortexView(.rain) 
+    VortexView(.splash)
 }
 ```
 
 </details>
+
+
+## Change History
+
+### Dec 2025: Introducing VortexSystem.Settings and prebuilt Symbols. ( Contributed by [Andrew Cowley](https://twitter.com/disq0infern0) )
+With this change Vortex particle systems are easier to create. The instructions above have already been modified to include details on the changes.
+Along with this change, the Vortex particle system now has preconfigured symbols (tagged with "circle", "confetti", and "sparkle") for use in your systems.
+These are all 16x16 images, with `.blendMode(.plusLighter)` applied.
+All previously existing code will continue to work without change, however it will now compile with warnings to indicate that the code should be updated to use Settings.
 
 
 ## Contributing
