@@ -24,6 +24,7 @@ extension VortexSettings {
     }
 }
 
+
 #Preview("Demonstrates the fire preset with attraction") {
     /// Here we modify the default fire settings to extend it across the bottom of the screen
     let floorOnFire = VortexSettings(basedOn: .fire) { settings in
