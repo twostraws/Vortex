@@ -7,19 +7,22 @@
 
 import SwiftUI
 
-extension VortexSystem {
-    /// A built-in fireworks effect, using secondary systems that create sparkles and explosions.
-    /// Relies on the built in circle symbol, or a symbol with the "circle" tag being present, which should be set to use
-    /// `.blendMode(.plusLighter)`.
-    public static let fireworks = VortexSystem(settings: .fireworks)
-}
-
-extension VortexSystem.Settings {
+extension VortexSettings {
     /// A built-in fireworks effect, using secondary systems that create sparkles and explosions.
     /// Relies on a symbol view tagged with "circle" being available to the VortexView.  (one such image is built-in)
-    public static let fireworks = VortexSystem.Settings { settings in
+    public static let fireworks = VortexSettings { settings in
+        settings.tags = ["circle"]
+        settings.position = [0.5, 1]
+        settings.birthRate = 2
+        settings.emissionLimit = 1000
+        settings.speed = 1.5
+        settings.speedVariation = 0.75
+        settings.angleRange = .degrees(60)
+        settings.dampingFactor = 2
+        settings.size = 0.15
+        settings.stretchFactor = 4
         
-        var sparkles = VortexSystem.Settings { sparkle in
+        var sparkles = VortexSettings { sparkle in
             sparkle.tags = ["sparkle"]
             sparkle.spawnOccasion = .onUpdate
             sparkle.emissionLimit = 1
@@ -29,7 +32,7 @@ extension VortexSystem.Settings {
             sparkle.size = 0.05
         }
         
-        var explosions = VortexSystem.Settings { explosion in 
+        var explosions = VortexSettings { explosion in 
             explosion.tags = ["circle"]
             explosion.spawnOccasion = .onDeath
             explosion.position = [0.5, 0.5]
@@ -52,23 +55,17 @@ extension VortexSystem.Settings {
             explosion.sizeMultiplierAtDeath = 0
         }
 
-        
-        settings.tags = ["circle"]
         settings.secondarySettings = [sparkles, explosions]
-        settings.position = [0.5, 1]
-        settings.birthRate = 2
-        settings.emissionLimit = 1000
-        settings.speed = 1.5
-        settings.speedVariation = 0.75
-        settings.angleRange = .degrees(60)
-        settings.dampingFactor = 2
-        settings.size = 0.15
-        settings.stretchFactor = 4
     }
 }
 
-#Preview("Fireworks") {
-    VortexView(settings: .fireworks)
-        .navigationSubtitle("Demonstrates multi-stage effects")
-        .ignoresSafeArea(edges: .top)
+#Preview("Demonstrates multi-stage effects") {
+    VortexView(.fireworks) {
+        Circle()
+            .fill(.white)
+            .frame(width: 32)
+            .blur(radius: 5)
+            .blendMode(.plusLighter)
+            .tag("circle")
+    }
 }

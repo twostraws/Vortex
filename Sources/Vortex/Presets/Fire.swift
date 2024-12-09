@@ -7,17 +7,10 @@
 
 import SwiftUI
 
-extension VortexSystem {
-    /// A built-in fire effect. Relies on a "circle" tag being present, which should be set to use 
+extension VortexSettings {
+    /// A built-in fire effect. Relies on a "circle" tag being present, which should be set to use
     /// `.blendMode(.plusLighter)`.
-    public static let fire = VortexSystem(settings: .fire)
-}
-
-
-extension VortexSystem.Settings { 
-    /// A built-in fire effect. Relies on a "circle" tag being present, which should be set to use 
-    /// `.blendMode(.plusLighter)`.
-    public static let fire = VortexSystem.Settings { settings in
+    public static let fire = VortexSettings { settings in
         settings.tags = ["circle"]
         settings.shape = .box(width: 0.1, height: 0)
         settings.birthRate = 300
@@ -31,11 +24,38 @@ extension VortexSystem.Settings {
     }
 }
 
-#Preview {
-    let floorOnFire = VortexSystem.Settings(from: .fire ) { settings in
-        settings.position = [ 0.5, 1.02]
+#Preview("Demonstrates the fire preset with attraction") {
+    /// Here we modify the default fire settings to extend it across the bottom of the screen
+    let floorOnFire:VortexSettings = { 
+        var settings = VortexSettings(basedOn: .fire)
+        settings.position = [0.5, 1.02]
         settings.shape = .box(width: 1.0, height: 0)
-        settings.birthRate = 600 
-    } 
-    VortexView(settings: floorOnFire) 
+        settings.birthRate = 600
+        return settings
+    }()
+    VortexView(floorOnFire) {
+        Circle()
+            .fill(.white)
+            .frame(width: 32)
+            .blur(radius: 3)
+            .blendMode(.plusLighter)
+            .tag("circle")
+    }
+}
+
+#Preview("Demonstrates the fire preset with attraction") {
+    /// Here we modify the default fire settings to extend it across the bottom of the screen
+    let floorOnFire = VortexSettings(basedOn: .fire) { settings in
+        settings.position = [0.5, 1.02]
+        settings.shape = .box(width: 1.0, height: 0)
+        settings.birthRate = 600
+    }
+    VortexView(floorOnFire) {
+        Circle()
+            .fill(.white)
+            .frame(width: 32)
+            .blur(radius: 3)
+            .blendMode(.plusLighter)
+            .tag("circle")
+    }
 }

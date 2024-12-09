@@ -7,15 +7,9 @@
 
 import SwiftUI
 
-extension VortexSystem {
-    /// A built-in firefly effect. Relies on a "circle" tag being present, which should be set to use
-    /// `.blendMode(.plusLighter)`.
-    public static let fireflies = VortexSystem(settings: .fireflies)
-}
-
-extension VortexSystem.Settings {  
+extension VortexSettings {  
     /// A built-in firefly effect. Uses the built-in 'circle' image.
-    public static let fireflies = VortexSystem.Settings() { settings in 
+    public static let fireflies = VortexSettings() { settings in 
         settings.tags = ["circle"]
         settings.shape = .ellipse(radius: 0.5)
         settings.birthRate = 200
@@ -32,7 +26,7 @@ extension VortexSystem.Settings {
 /// A Fireflies preview, using the `.fireflies` preset
 /// macOS 15 is required for the `.onModifierKeysChanged` method that is used to capture the Option key being pressed.
 @available(macOS 15.0, *)
-#Preview("Fireflies") {
+#Preview("Demonstrates use of attraction and repulsion") {
     @Previewable @State var isDragging = false
     /// A state value indicating whether the Option key is being held down
     @Previewable @State var pressingOptionKey = false
@@ -51,28 +45,31 @@ extension VortexSystem.Settings {
                     .padding(.bottom, 20)
             }
             
-            VortexView(settings: .fireflies) 
-                .onModifierKeysChanged(mask: .option) { _, new in
-                    // set the view state based on whether the 
-                    // `new` EventModifiers value contains a value (that would be the option key)
-                    pressingOptionKey = !new.isEmpty
-                }
-                .gesture(
-                    DragGesture(minimumDistance: 0)
-                        .onChanged { value in
-                            proxy.attractTo(value.location)
-                            proxy.particleSystem?
-                                .vortexSettings.attractionStrength = pressingOptionKey ? 2.5 : -2
-                            isDragging = true
-                        }
-                        .onEnded { _ in
-                            proxy.particleSystem?
-                                .vortexSettings.attractionStrength = 0
-                            isDragging = false
-                        }
-                )
+            VortexView(.fireflies) {
+                Circle()
+                    .fill(.white)
+                    .frame(width: 32)
+                    .blur(radius: 3)
+                    .blendMode(.plusLighter)
+                    .tag("circle")
+            }
+            .onModifierKeysChanged(mask: .option) { _, new in
+                // set the view state based on whether the 
+                // `new` EventModifiers value contains a value (that would be the option key)
+                pressingOptionKey = !new.isEmpty
+            }
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { value in
+                        proxy.attractTo(value.location)
+                        proxy.particleSystem?.settings.attractionStrength = pressingOptionKey ? 2.5 : -2
+                        isDragging = true
+                    }
+                    .onEnded { _ in
+                        proxy.particleSystem?.settings.attractionStrength = 0
+                        isDragging = false
+                    }
+            )
         }
     }
-    .navigationSubtitle("Demonstrates use of attraction and repulsion")
-    .ignoresSafeArea(edges: .top)
 }

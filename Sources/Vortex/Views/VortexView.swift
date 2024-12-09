@@ -63,22 +63,12 @@ public struct VortexView<Symbols>: View where Symbols: View {
     ///               Typically this will be set using a preset static struct, e.g. `.fire`. Defaults to a simple system.
     ///   - targetFrameRate: The ideal frame rate for updating particles. Defaults to 60 if not specified. (use 120 on Pro model iPhones/iPads )
     ///   - symbols:  A closure that should return a tagged group of SwiftUI views to use as particles. 
-    ///               If not specified, a default group of three views tagged with `.circle`,`.confetti` and `.sparkle` will be used.
     public init(
-        settings: VortexSystem.Settings = .init(),
+        _ settings: VortexSettings = .init(),
         targetFrameRate: Int = 60, 
-        @ViewBuilder symbols: () -> Symbols = {
-            Group {
-        Image.circle
-            .frame(width: 16).blendMode(.plusLighter).tag("circle")
-        Image.confetti
-            .frame(width: 16, height: 16).blendMode(.plusLighter).tag("triangle") 
-        Image.sparkle
-            .frame(width: 16, height: 16).blendMode(.plusLighter).tag("sparkle") 
-    }
-        }
+        @ViewBuilder symbols: () -> Symbols 
     ) {
-        _particleSystem = State( initialValue: VortexSystem(settings: settings) ) 
+        _particleSystem = State( initialValue: VortexSystem(settings) ) 
         self.targetFrameRate = targetFrameRate
         self.symbols = symbols()
     }
