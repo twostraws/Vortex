@@ -35,7 +35,8 @@ public struct VortexView<Symbols>: View where Symbols: View {
     /// - Parameters:
     ///   - system: The primary particle system you want to render.
     ///   - symbols: A closure that should return one or more SwiftUI views to use as particles. 
-    ///              If a closure is not supplied, a default group of symbols will be provided; tagged with 'circle', 'triangle' and 'sparkle'.
+    ///              If a closure is not supplied, a default group of symbols will be provided; tagged with 'circle', 'confetti' and 'sparkle'.
+    @available(*, deprecated, message: "Deprecated. Invoke the VortexView with a VortexSystem.Settings struct")              
     public init(
         _ system: VortexSystem, 
         targetFrameRate: Int = 60, 
@@ -55,6 +56,22 @@ public struct VortexView<Symbols>: View where Symbols: View {
         self.symbols = symbols()
     }
 
+    /// Creates a new VortexView from a pre-configured particle system, along with any required  SwiftUI
+    /// views needed to render particles. Sensible defaults will be used if no parameters are passed.
+    /// - Parameters:
+    ///   - settings: A vortexSettings struct that should be used to generate a particle system. 
+    ///               Typically this will be set using a preset static struct, e.g. `.fire`. Defaults to a simple system.
+    ///   - targetFrameRate: The ideal frame rate for updating particles. Defaults to 60 if not specified. (use 120 on Pro model iPhones/iPads )
+    ///   - symbols:  A closure that should return a tagged group of SwiftUI views to use as particles. 
+    public init(
+        _ settings: VortexSettings = .init(),
+        targetFrameRate: Int = 60, 
+        @ViewBuilder symbols: () -> Symbols 
+    ) {
+        _particleSystem = State( initialValue: VortexSystem(settings) ) 
+        self.targetFrameRate = targetFrameRate
+        self.symbols = symbols()
+    }
     /// Draws one particle system inside the canvas.
     /// - Parameters:
     ///   - particleSystem: The particle system to draw.

@@ -26,9 +26,9 @@ public struct VortexViewReader<Content: View>: View {
             nearestVortexSystem?.burst()
         } attractTo: { point in
             if let point {
-                nearestVortexSystem?.attractionCenter = SIMD2(point.x, point.y)
+                nearestVortexSystem?.settings.attractionCenter = SIMD2(point.x, point.y)
             } else {
-                nearestVortexSystem?.attractionCenter = nil
+                nearestVortexSystem?.settings.attractionCenter = nil
             }
         }
 
