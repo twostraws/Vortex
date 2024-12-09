@@ -26,25 +26,6 @@ extension VortexSettings {
 
 #Preview("Demonstrates the fire preset with attraction") {
     /// Here we modify the default fire settings to extend it across the bottom of the screen
-    let floorOnFire:VortexSettings = { 
-        var settings = VortexSettings(basedOn: .fire)
-        settings.position = [0.5, 1.02]
-        settings.shape = .box(width: 1.0, height: 0)
-        settings.birthRate = 600
-        return settings
-    }()
-    VortexView(floorOnFire) {
-        Circle()
-            .fill(.white)
-            .frame(width: 32)
-            .blur(radius: 3)
-            .blendMode(.plusLighter)
-            .tag("circle")
-    }
-}
-
-#Preview("Demonstrates the fire preset with attraction") {
-    /// Here we modify the default fire settings to extend it across the bottom of the screen
     let floorOnFire = VortexSettings(basedOn: .fire) { settings in
         settings.position = [0.5, 1.02]
         settings.shape = .box(width: 1.0, height: 0)
