@@ -7,18 +7,10 @@
 
 import SwiftUI
 
-extension VortexSystem {
+extension VortexSettings {
     /// A built-in effect that creates confetti only when a burst is triggered.
-    /// Relies on "confetti" and "circle" tags being present – using `Rectangle`
-    /// and `Circle` with frames of 16x16 works well.
-    /// This declaration is deprecated. A VortexView should be invoked with a VortexSystem.Settings struct directly. See the example below.
-    public static let confetti = VortexSystem(settings: .confetti)
-}
-
-extension VortexSystem.Settings {
-    /// A built-in effect that creates confetti only when a burst is triggered.
-    public static let confetti = VortexSystem.Settings() { settings in
-        settings.tags = ["confetti", "circle"]
+    public static let confetti = VortexSettings { settings in
+        settings.tags = ["square", "circle"]
         settings.birthRate = 0
         settings.lifespan = 4
         settings.speed = 0.5
@@ -26,8 +18,34 @@ extension VortexSystem.Settings {
         settings.angleRange = .degrees(90)
         settings.acceleration = [0, 1]
         settings.angularSpeedVariation = [4, 4, 4]
-        settings.colors = .random(.white, .red, .green, .blue, .pink, .orange, .cyan)
+        settings.colors = .random(
+            .white, .red, .green, .blue, .pink, .orange, .cyan)
         settings.size = 0.5
         settings.sizeVariation = 0.5
     }
 }
+
+@available(macOS 14.0, *) 
+#Preview("Demonstrate on demand bursts") {
+    VortexViewReader { proxy in
+        ZStack {
+            Text("Tap anywhere to create confetti.")
+            
+            VortexView(.confetti.makeUniqueCopy()) {
+                Rectangle()
+                    .fill(.white)
+                    .frame(width: 16, height: 16)
+                    .tag("square")
+                Circle()
+                    .fill(.white)
+                    .frame(width: 16)
+                    .tag("circle")
+            }
+            .onTapGesture { location in
+                proxy.move(to: location)
+                proxy.burst()
+            }
+        }
+    }
+}
+
