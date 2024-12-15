@@ -35,18 +35,16 @@ extension VortexSystem {
     @Previewable @State var pressingOptionKey = false
     VortexViewReader { proxy in
         ZStack(alignment: .bottom) {
-            if isDragging {
-                Text("Release your drag to reset the fireflies.")
-                    .padding(.bottom, 20)
+            let instructions = if isDragging {
+                "Release your drag to reset the fireflies."
+            } else if !pressingOptionKey {
+                "Drag anywhere to repel the fireflies. Or hold the Option Key"
             } else {
-                let instructions = if !pressingOptionKey {
-                    "Drag anywhere to repel the fireflies. Or hold the Option Key"
-                } else {
-                    "Drag anywhere to attract the fireflies"
-                }
-                Text(instructions)
-                    .padding(.bottom, 20)
+                "Drag anywhere to attract the fireflies"
             }
+            
+            Text(instructions)
+                .padding(.bottom, 20)
             
             VortexView(.fireflies) 
                 .onModifierKeysChanged(mask: .option) { _, new in
