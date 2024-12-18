@@ -11,7 +11,7 @@ import Vortex
 /// A sample view demonstrating the built-in smoke preset.
 struct SmokeView: View {
     var body: some View {
-        VortexView(.smoke.makeUniqueCopy()) {
+        VortexView(.smoke) {
             Circle()
                 .fill(.white)
                 .frame(width: 64)

@@ -100,8 +100,9 @@ struct ContentView: View {
         }
     }
 
-    func createSnow() -> VortexSystem {
-        let system = VortexSystem(tags: ["circle"])
+    func createSnow() -> VortexSettings {
+        let system = VortexSettings()
+        system.tags = ["circle"]
         system.position = [0.5, 0]
         system.speed = 0.5
         system.speedVariation = 0.25
@@ -170,7 +171,7 @@ The initializer for `VortexSystem` takes a wide range of configuration options t
 The `VortexSystem` initializer parameters are:
 
 - `tags` (`[String]`, *required*) should be the names of one or more views you're passing into a `VortexView` to render this particle system. This string array might only be *some* of the views you're passing in – you might have a secondary system that uses different tags, for example.
-- `secondarySystems` (`[VortexSystem]`, defaults to an empty array) should contain all the secondary particle systems that should be attached to this primary emitter.
+- `secondarySettings` (`[VortexSettings]`, defaults to an empty array) should contain all the secondary particle settings that should be attached to this primary emitter.
 - `spawnOccasion` (`SpawnOccasion`, defaults to `.onBirth`) determines when this secondary system should be created. Ignored if this is your primary particle system.
 - `position` (`SIMD2<Double>`, defaults to `[0.5, 0.5]`) determines the center position of this particle system.
 - `shape` (`Shape`, defaults to `.point`) determines the bounds of where particles are emitted. 

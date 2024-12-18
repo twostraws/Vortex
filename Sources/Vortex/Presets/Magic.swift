@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-extension VortexSystem {
+extension VortexSettings {
     /// A built-in magic effect. Relies on a "sparkle" tag being present, which should be set to use
     /// `.blendMode(.plusLighter)`.
-    public static let magic: VortexSystem = {
-        VortexSystem(
+    public static let magic  = 
+        VortexSettings(
             tags: ["sparkle"],
             shape: .ring(radius: 0.5),
             lifespan: 1.5,
@@ -24,5 +24,7 @@ extension VortexSystem {
             sizeVariation: 0.5,
             sizeMultiplierAtDeath: 0.01
         )
-    }()
+}
+#Preview {
+    VortexView(.magic)
 }

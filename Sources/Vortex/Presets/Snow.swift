@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-extension VortexSystem {
+extension VortexSettings {
     /// A built-in snow effect. Relies on a "circle" tag being present.
-    public static let snow: VortexSystem = {
-        VortexSystem(
+    public static let snow: VortexSettings = {
+        VortexSettings(
             tags: ["circle"],
             position: [0.5, 0],
             shape: .box(width: 1, height: 0),
@@ -28,5 +28,11 @@ extension VortexSystem {
 
 #Preview {
     // Use the snow preset, using the default symbol for the circle tag
-    VortexView(.snow.makeUniqueCopy())
+    VortexView(.snow){
+        Circle()
+            .fill(.white)
+            .frame(width: 24)
+            .blur(radius: 5)
+            .tag("circle")
+    }
 }

@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-extension VortexSystem {
+extension VortexSettings {
     /// A built-in fireworks effect, using secondary systems that create sparkles and explosions.
     /// Relies on a "circle" tag being present, which should be set to use
     /// `.blendMode(.plusLighter)`.
-    public static let fireworks: VortexSystem = {
-        let sparkles = VortexSystem(
+    public static let fireworks: VortexSettings = {
+        let sparkles = VortexSettings(
             tags: ["circle"],
             spawnOccasion: .onUpdate,
             emissionLimit: 1,
@@ -22,7 +22,7 @@ extension VortexSystem {
             size: 0.05
         )
 
-        let explosion = VortexSystem(
+        let explosion = VortexSettings(
             tags: ["circle"],
             spawnOccasion: .onDeath,
             position: [0.5, 1],
@@ -45,9 +45,9 @@ extension VortexSystem {
             sizeMultiplierAtDeath: 0
         )
 
-        let mainSystem = VortexSystem(
+        let mainSystem = VortexSettings(
             tags: ["circle"],
-            secondarySystems: [sparkles, explosion],
+            secondarySettings: [sparkles, explosion],
             position: [0.5, 1],
             birthRate: 2,
             emissionLimit: 1000,
@@ -61,4 +61,15 @@ extension VortexSystem {
 
         return mainSystem
     }()
+}
+
+#Preview("Demonstrates multi-stage effects") {
+    VortexView(.fireworks) {
+        Circle()
+            .fill(.white)
+            .frame(width: 32)
+            .blur(radius: 5)
+            .blendMode(.plusLighter)
+            .tag("circle")
+    }
 }

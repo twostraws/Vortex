@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-extension VortexSystem {
+extension VortexSettings {
     /// A built-in firefly effect. Relies on a "circle" tag being present, which should be set to use
     /// `.blendMode(.plusLighter)`.
-    public static let fireflies: VortexSystem = {
-        VortexSystem(
+    public static let fireflies: VortexSettings = {
+        VortexSettings(
             tags: ["circle"],
             shape: .ellipse(radius: 0.5),
             birthRate: 200,
@@ -46,7 +46,14 @@ extension VortexSystem {
             Text(instructions)
                 .padding(.bottom, 20)
             
-            VortexView(.fireflies) 
+            VortexView(.fireflies) {
+                Circle()
+                    .fill(.white)
+                    .frame(width: 32)
+                    .blur(radius: 3)
+                    .blendMode(.plusLighter)
+                    .tag("circle")
+            }
                 .onModifierKeysChanged(mask: .option) { _, new in
                     // set the view state based on whether the 
                     // `new` EventModifiers value contains a value (that would be the option key)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension VortexSystem {
+extension VortexSettings {
     /// Controls where particles are created inside the particle system.
     public enum Shape: Codable {
         /// All particles are created from the center of the particle system.

@@ -11,7 +11,7 @@ import Vortex
 /// A sample view demonstrating the built-in magic preset.
 struct MagicView: View {
     var body: some View {
-        VortexView(.magic.makeUniqueCopy()) {
+        VortexView(.magic) {
             Image(.sparkle)
                 .blendMode(.plusLighter)
                 .tag("sparkle")

@@ -40,10 +40,10 @@ extension VortexSystem {
         var angularSpeed = SIMD3<Double>()
 
         /// The colors to use for rendering this particle over time.
-        var colors: [Color]
+        var colors: [VortexSettings.Color]
 
         /// The current color to use for rendering this particle right now. This is recomputed
         /// every time its system's `update()` method is called.
-        var currentColor = Color.white
+        var currentColor = VortexSettings.Color.white
     }
 }
