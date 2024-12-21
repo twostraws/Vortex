@@ -11,7 +11,7 @@ import Vortex
 /// A sample view demonstrating the built-in snow preset.
 struct SnowView: View {
     var body: some View {
-        VortexView(.snow.makeUniqueCopy()) {
+        VortexView(.snow) {
             Circle()
                 .fill(.white)
                 .frame(width: 24)

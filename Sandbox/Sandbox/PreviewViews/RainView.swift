@@ -11,7 +11,7 @@ import Vortex
 /// A sample view demonstrating the built-in rain preset.
 struct RainView: View {
     var body: some View {
-        VortexView(.rain.makeUniqueCopy()) {
+        VortexView(.rain) {
             Circle()
                 .fill(.white)
                 .frame(width: 32)

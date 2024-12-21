@@ -7,11 +7,10 @@
 
 import SwiftUI
 
-extension VortexSystem {
+extension VortexSettings {
     /// A built-in spark effect. Relies on a "circle" tag being present, which should be set to use
     /// `.blendMode(.plusLighter)`.
-    public static let spark: VortexSystem = {
-        VortexSystem(
+    public static let spark = VortexSettings(
             tags: ["circle"],
             birthRate: 150,
             emissionDuration: 0.2,
@@ -28,5 +27,7 @@ extension VortexSystem {
             sizeVariation: 0.1,
             stretchFactor: 8
         )
-    }()
+}
+#Preview("Spark preset preview") {
+    VortexView(.spark)
 }

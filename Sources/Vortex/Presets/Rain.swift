@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-extension VortexSystem {
+extension VortexSettings {
     /// A built-in rain effect. Relies on a "circle" tag being present.
-    public static let rain: VortexSystem = {
-        VortexSystem(
+    public static let rain =
+        VortexSettings(
             tags: ["circle"],
             position: [0.5, 0 ],
             shape: .box(width: 1.8, height: 0),
@@ -28,5 +28,7 @@ extension VortexSystem {
             sizeVariation: 0.05,
             stretchFactor: 12
         )
-    }()
+}
+#Preview("Demonstrate use of 'rain' preset") {
+    VortexView(.rain)
 }

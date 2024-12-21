@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension VortexSystem {
+extension VortexSettings {
     /// Controls how colors are applied to particles inside a Vortex system.
     public enum ColorMode: Codable {
         /// Particles should always be created with a single color.

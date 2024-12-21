@@ -6,12 +6,12 @@
 //
 import SwiftUI
 
-extension Array where Element == VortexSystem.Color {
+extension Array where Element == VortexSettings.Color {
     /// Creates a new color by linearly interpolating between other colors in a color array.
     /// - Parameter amount: How far through the array we should be reading. For example,
     /// if the array contains white then black and `amount` is set to 0.5, this will return gray.
     /// - Returns: A new color created by interpolating existing colors inside the array.
-    func lerp(by amount: Double) -> VortexSystem.Color {
+    func lerp(by amount: Double) -> VortexSettings.Color {
         guard isEmpty == false else {
             fatalError("Attempting to interpolate an empty color array.")
         }
@@ -35,7 +35,7 @@ extension Array where Element == VortexSystem.Color {
         let interpolatedBlue = lowerColor.blue.lerp(to: upperColor.blue, amount: interpolationFactor)
         let interpolatedOpacity = lowerColor.opacity.lerp(to: upperColor.opacity, amount: interpolationFactor)
 
-        return VortexSystem.Color(
+        return VortexSettings.Color(
             red: interpolatedRed,
             green: interpolatedGreen,
             blue: interpolatedBlue,

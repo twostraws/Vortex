@@ -7,10 +7,9 @@
 
 import SwiftUI
 
-extension VortexSystem {
+extension VortexSettings {
     /// A built-in smoke effect. Relies on a "circle" tag being present.
-    public static let smoke: VortexSystem = {
-        VortexSystem(
+    public static let smoke = VortexSettings(
             tags: ["circle"],
             shape: .box(width: 0.05, height: 0),
             lifespan: 3,
@@ -22,5 +21,13 @@ extension VortexSystem {
             sizeVariation: 0.5,
             sizeMultiplierAtDeath: 2
         )
-    }()
+}
+#Preview("Demonstrate use of 'smoke' preset") {
+    VortexView(.smoke){
+        Circle()
+            .fill(.white)
+            .frame(width: 64)
+            .blur(radius: 10)
+            .tag("circle")
+    }
 }

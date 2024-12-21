@@ -11,7 +11,7 @@ import Vortex
 /// A sample view demonstrating the built-in spark preset.
 struct SparkView: View {
     var body: some View {
-        VortexView(.spark.makeUniqueCopy()) {
+        VortexView(.spark) {
             Circle()
                 .fill(.white)
                 .frame(width: 16)

@@ -23,7 +23,7 @@ struct FirefliesView: View {
                         .padding(.bottom, 20)
                 }
 
-                VortexView(.fireflies.makeUniqueCopy()) {
+                VortexView(.fireflies) {
                     Circle()
                         .fill(.white)
                         .frame(width: 32)

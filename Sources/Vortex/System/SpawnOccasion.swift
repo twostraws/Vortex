@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension VortexSystem {
+extension VortexSettings {
     /// Controls when secondary systems are created.
     public enum SpawnOccasion: Codable {
         /// Creates a new system at the same time as creating a new particle.

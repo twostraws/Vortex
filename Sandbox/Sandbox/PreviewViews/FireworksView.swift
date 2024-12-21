@@ -11,7 +11,7 @@ import Vortex
 /// A sample view demonstrating the built-in fireworks preset.
 struct FireworksView: View {
     var body: some View {
-        VortexView(.fireworks.makeUniqueCopy()) {
+        VortexView(.fireworks) {
             Circle()
                 .fill(.white)
                 .frame(width: 32)

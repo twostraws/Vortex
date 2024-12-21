@@ -23,7 +23,7 @@ struct FireView: View {
                         .offset(y: 50)
                 }
 
-                VortexView(.fire.makeUniqueCopy()) {
+                VortexView(.fire) {
                     Circle()
                         .fill(.white)
                         .frame(width: 32)

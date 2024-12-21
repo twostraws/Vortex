@@ -30,27 +30,25 @@ public struct VortexView<Symbols>: View where Symbols: View {
         .preference(key: VortexSystemPreferenceKey.self, value: particleSystem)
     }
 
-    /// Creates a new VortexView from a pre-configured particle system, along with all the SwiftUI
-    /// views to render as particles.
+    /// Creates a new VortexView from a pre-configured particle system, along with any required  SwiftUI
+    /// views needed to render particles. Sensible defaults will be used if no parameters are passed.
     /// - Parameters:
-    ///   - system: The primary particle system you want to render.
-    ///   - symbols: A closure that should return one or more SwiftUI views to use as particles. 
-    ///              If a closure is not supplied, a default group of symbols will be provided; tagged with 'circle', 'triangle' and 'sparkle'.
+    ///   - settings: A vortexSettings struct that should be used to generate a particle system. 
+    ///               Typically this will be set using a preset static struct, e.g. `.fire`. Defaults to a simple system.
+    ///   - targetFrameRate: The ideal frame rate for updating particles. Defaults to 60 if not specified. (use 120 on Pro model iPhones/iPads )
+    ///   - symbols:  A closure that should return a tagged group of SwiftUI views to use as particles. Default symbols, used in some Previews, with "circle","square" and "sparkle" tags are provided.
     public init(
-        _ system: VortexSystem, 
+        _ settings: VortexSettings = .init(),
         targetFrameRate: Int = 60, 
         @ViewBuilder symbols: () -> Symbols = {
-            Group {
-                Image.circle
-                    .frame(width: 16).blendMode(.plusLighter).tag("circle")
-                Image.confetti
-                    .frame(width: 16, height: 16).blendMode(.plusLighter).tag("confetti") 
-                Image.sparkle
-                    .frame(width: 16, height: 16).blendMode(.plusLighter).tag("sparkle") 
+            Group { 
+                Circle().fill(.white).blendMode(.plusLighter).frame(width: 16, height: 16).tag("circle")
+                Rectangle().fill(.white).frame(width: 16, height: 16).tag("square") 
+                Image.sparkle.frame(width: 16, height: 16).blendMode(.plusLighter).tag("sparkle") 
             }
         }
     ) {
-        _particleSystem = State(initialValue: system)
+        _particleSystem = State( initialValue: VortexSystem(settings)) 
         self.targetFrameRate = targetFrameRate
         self.symbols = symbols()
     }
