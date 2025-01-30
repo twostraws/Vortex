@@ -122,6 +122,7 @@ extension VortexSystem {
     /// - Parameter force: When true, this will create a particle even if
     /// this system has already reached its emission limit.
     func createParticle(force: Bool = false) {
+        guard force || isActive else { return }
         guard isEmitting else { return }
 
         if let emissionLimit {

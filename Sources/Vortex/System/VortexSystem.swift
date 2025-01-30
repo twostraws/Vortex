@@ -68,6 +68,10 @@ public class VortexSystem: Codable, Identifiable, Equatable, Hashable {
     /// use other tags.
     public var tags = [String]()
 
+    /// A global Boolean to start or stop this system from emitting regardless of
+    /// all other settings.
+    public var isActive = true
+
     /// Whether this particle system should actively be emitting right now.
     public var isEmitting = true
 
