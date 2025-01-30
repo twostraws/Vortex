@@ -26,7 +26,3 @@ extension VortexSystem {
     }()
 }
 
-#Preview {
-    // Use the snow preset, using the default symbol for the circle tag
-    VortexView(.snow.makeUniqueCopy())
-}
