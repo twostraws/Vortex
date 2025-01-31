@@ -11,24 +11,31 @@ import Vortex
 /// A sample view demonstrating confetti bursts.
 struct ConfettiView: View {
     var body: some View {
-        VortexViewReader { proxy in
-            ZStack {
-                Text("Tap anywhere to create confetti.")
+        GeometryReader { geometry in
+            VortexViewReader { proxy in
+                ZStack {
+                    Text("Tap anywhere to create confetti.")
 
-                VortexView(.confetti.makeUniqueCopy()) {
-                    Rectangle()
-                        .fill(.white)
-                        .frame(width: 16, height: 16)
-                        .tag("square")
+                    VortexView(.confetti.makeUniqueCopy()) {
+                        Rectangle()
+                            .fill(Color.white)
+                            .frame(width: 16, height: 16)
+                            .tag("square")
 
-                    Circle()
-                        .fill(.white)
-                        .frame(width: 16)
-                        .tag("circle")
-                }
-                .onTapGesture { location in
-                    proxy.move(to: location)
-                    proxy.burst()
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 16)
+                            .tag("circle")
+                    }
+                    .onTapGesture { location in
+                        proxy.move(to: location) // works fine
+                        proxy.burst()
+                    }
+                    .onAppear {
+                        let initialPosition = CGPoint(x: geometry.size.width / 2, y: geometry.size.height / 2)
+                        proxy.move(to: initialPosition) // should work now
+                        proxy.burst()
+                    }
                 }
             }
         }
