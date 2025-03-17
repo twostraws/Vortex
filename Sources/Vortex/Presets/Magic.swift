@@ -19,7 +19,15 @@ extension VortexSystem {
             speedVariation: 0.2,
             angleRange: .degrees(360),
             angularSpeedVariation: [0, 0, 10],
-            colors: .random(.red, .pink, .orange, .blue, .green, .white),
+            colors: .randomRamp(
+                [.red, .red, .red.opacity(0)],
+                [.pink, .pink, .pink.opacity(0)],
+                [.orange, .orange, .orange.opacity(0)],
+                [.blue, .blue, .blue.opacity(0)],
+                [.green, .green, .green.opacity(0)],
+                [.white, .white, .white.opacity(0)],
+                fixed: false
+            ),
             size: 0.5,
             sizeVariation: 0.5,
             sizeMultiplierAtDeath: 0.01
