@@ -17,17 +17,18 @@ public class VortexSystem: Codable, Identifiable, Equatable, Hashable {
         case angularSpeedVariation, colors, size, sizeVariation, sizeMultiplierAtDeath, stretchFactor
     }
 
-    /// A public identifier  to satisfy Identifiable
+    /// A public identifier  to satisfy Identifiable.
     public let id = UUID()
-    /// Equatable conformance
+
+    /// Equatable conformance.
     public static func == (lhs: VortexSystem, rhs: VortexSystem) -> Bool {
         lhs.id == rhs.id
     }
-    /// Hashable conformance
+
+    /// Hashable conformance.
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
-    } 
-
+    }
 
     // These properties are used for managing a live system, rather
     // than for configuration purposes.
