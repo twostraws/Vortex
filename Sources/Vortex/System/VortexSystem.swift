@@ -47,6 +47,9 @@ public class VortexSystem: Codable, Identifiable, Equatable, Hashable {
     /// The last time this particle system was updated.
     var lastUpdate = Date.now.timeIntervalSince1970
 
+    /// The number of seconds to skip forwards (or backwards, if the value is negative) when animation begins.
+    var startTimeOffset: TimeInterval = 0
+
     /// The total number of particles emitted by this system.
     var emissionCount = 0
 
@@ -262,7 +265,8 @@ public class VortexSystem: Codable, Identifiable, Equatable, Hashable {
         size: Double = 1,
         sizeVariation: Double = 0,
         sizeMultiplierAtDeath: Double = 1,
-        stretchFactor: Double = 1
+        stretchFactor: Double = 1,
+        startTimeOffset: TimeInterval = 0
     ) {
         self.tags = tags
         self.secondarySystems = secondarySystems
@@ -292,7 +296,10 @@ public class VortexSystem: Codable, Identifiable, Equatable, Hashable {
         self.sizeVariation = sizeVariation
         self.sizeMultiplierAtDeath = sizeMultiplierAtDeath
         self.stretchFactor = stretchFactor
+        self.startTimeOffset = startTimeOffset
 
+        lastUpdate -= startTimeOffset
+        
         if case let .randomRamp(allColors) = colors {
             selectedColorRamp = Int.random(in: 0..<allColors.count)
         }
@@ -330,7 +337,8 @@ public class VortexSystem: Codable, Identifiable, Equatable, Hashable {
             size: size,
             sizeVariation: sizeVariation,
             sizeMultiplierAtDeath: sizeMultiplierAtDeath,
-            stretchFactor: stretchFactor
+            stretchFactor: stretchFactor,
+            startTimeOffset: startTimeOffset
         )
     }
 }
