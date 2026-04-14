@@ -19,9 +19,11 @@ extension VortexSystem {
         /// Particles should move through an array of colors over time.
         case ramp(_ colors: [Color])
 
-        /// The system should select one random color array, and give that
-        /// to each particle it creates.
-        case randomRamp(_ colors: [[Color]])
+        /// Particles should move through one of several possible color arrays.
+        /// - Parameter fixed: When true, the system will select one random color array,
+        /// and give that to each particle. When false, the system will select a random
+        /// color array for each particle.
+        case randomRamp(_ colors: [[Color]], fixed: Bool = true)
 
         /// A convenience method to create random colors because Swift does not
         /// support variadic enum cases.
@@ -37,8 +39,8 @@ extension VortexSystem {
 
         /// A convenience method to create random color ramps because Swift does not
         /// support variadic enum cases.
-        public static func randomRamp(_ colors: [Color]...) -> ColorMode {
-            .randomRamp(colors)
+        public static func randomRamp(_ colors: [Color]..., fixed: Bool = true) -> ColorMode {
+            .randomRamp(colors, fixed: fixed)
         }
     }
 }

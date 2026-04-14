@@ -154,7 +154,7 @@ public class VortexSystem: Codable, Identifiable, Equatable, Hashable {
     /// then this system picks one possible color ramp to use.
     public var colors: ColorMode {
         didSet {
-            if case let .randomRamp(allColors) = colors {
+            if case let .randomRamp(allColors, true) = colors {
                 self.selectedColorRamp = Int.random(in: 0..<allColors.count)
             }
         }
@@ -300,7 +300,7 @@ public class VortexSystem: Codable, Identifiable, Equatable, Hashable {
 
         lastUpdate -= startTimeOffset
         
-        if case let .randomRamp(allColors) = colors {
+        if case let .randomRamp(allColors, true) = colors {
             selectedColorRamp = Int.random(in: 0..<allColors.count)
         }
     }

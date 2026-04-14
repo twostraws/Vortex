@@ -227,8 +227,15 @@ extension VortexSystem {
         case .ramp(let colors):
             return colors
 
-        case .randomRamp(let colors):
+        case .randomRamp(let colors, true):
             return colors[selectedColorRamp]
+
+        case .randomRamp(let colors, false):
+            if let randomRamp = colors.randomElement() {
+                return randomRamp
+            } else {
+                return [.white]
+            }
         }
     }
 }
