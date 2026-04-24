@@ -43,11 +43,11 @@ public struct VortexView<Symbols>: View where Symbols: View {
         @ViewBuilder symbols: () -> Symbols = {
             Group {
                 Image.circle
-                    .frame(width: 16).blendMode(.plusLighter).tag("circle")
+                    .frame(width: 16).blendMode(BlendMode.plusLighter).tag("circle")
                 Image.confetti
-                    .frame(width: 16, height: 16).blendMode(.plusLighter).tag("confetti")
+                    .frame(width: 16, height: 16).blendMode(BlendMode.plusLighter).tag("confetti")
                 Image.sparkle
-                    .frame(width: 16, height: 16).blendMode(.plusLighter).tag("sparkle")
+                    .frame(width: 16, height: 16).blendMode(BlendMode.plusLighter).tag("sparkle")
             }
         }
     ) {
